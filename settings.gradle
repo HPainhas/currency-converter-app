@@ -14,4 +14,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "CurrencyConverter"
 include ':app'
-include 'navigation-bar'
+include ':brand-kit'
+include ':navigation-bar'
