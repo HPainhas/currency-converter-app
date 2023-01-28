@@ -16,4 +16,5 @@ rootProject.name = "CurrencyConverter"
 include ':app'
 include ':brand-kit'
 include ':currency-conversion'
+include ':currency-selection'
 include ':navigation-bar'
