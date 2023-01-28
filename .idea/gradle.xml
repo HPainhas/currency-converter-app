@@ -17,6 +17,7 @@
             <option value="$PROJECT_DIR$/currency-selection" />
             <option value="$PROJECT_DIR$/currency-stats" />
             <option value="$PROJECT_DIR$/navigation-bar" />
+            <option value="$PROJECT_DIR$/real-time-exchange-rates" />
           </set>
         </option>
       </GradleProjectSettings>
