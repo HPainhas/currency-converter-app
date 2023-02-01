@@ -1,5 +1,7 @@
 package com.example.currencyconverter.navigationbar
 
-class NavigationBarFragment {
+import androidx.fragment.app.Fragment
+
+class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
 
 }
