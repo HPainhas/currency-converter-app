@@ -35,6 +35,9 @@ android {
 
 dependencies {
 
+    // Modules
+    implementation project(':brand-kit')
+
     // Google
     implementation 'com.google.android.material:material:1.8.0'
 

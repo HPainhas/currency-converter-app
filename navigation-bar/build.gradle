@@ -37,6 +37,9 @@ dependencies {
 
     // Modules
     implementation project(':brand-kit')
+    implementation project(path: ':currency-conversion')
+    implementation project(path: ':currency-favorite')
+    implementation project(path: ':currency-history-chart')
 
     // Google
     implementation 'com.google.android.material:material:1.8.0'
