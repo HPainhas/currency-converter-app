@@ -2,9 +2,11 @@
 <resources>
 
     <style name="NavigationBarStyle">
+        <item name="labelVisibilityMode">labeled</item>
         <item name="android:background">@color/white</item>
-        <item name="itemIconTint">@color/currency_converter_light_500</item>
-        <item name="itemTextColor">@color/currency_converter_light_500</item>
+        <item name="itemIconTint">@color/navigation_bar_button_background</item>
+        <item name="itemTextColor">@color/navigation_bar_button_background</item>
+        <item name="itemRippleColor">@color/currency_converter_light_50</item>
     </style>
 
 </resources>

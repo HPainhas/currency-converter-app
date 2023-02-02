@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="navigation_bar_menu_home">Home</string>
     <string name="navigation_bar_menu_convert">Convert</string>
     <string name="navigation_bar_menu_chart">Chart</string>
     <string name="navigation_bar_menu_favorites">Favorites</string>

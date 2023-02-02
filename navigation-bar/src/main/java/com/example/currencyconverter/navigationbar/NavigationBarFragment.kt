@@ -23,6 +23,9 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Start the app with the convert fragment selected
+        binding.navigationBar.selectedItemId = R.id.navigation_bar_menu_convert
+
         binding.navigationBar.setOnItemSelectedListener { item ->
             when(item.itemId) {
                 R.id.navigation_bar_menu_convert -> {
@@ -31,10 +34,6 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
                 }
                 R.id.navigation_bar_menu_chart -> {
                     // handle navigation to chart screen
-                    true
-                }
-                R.id.navigation_bar_menu_home -> {
-                    // handle navigation to home screen
                     true
                 }
                 R.id.navigation_bar_menu_favorites -> {
@@ -52,9 +51,6 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
                 }
                 R.id.navigation_bar_menu_chart -> {
                     // handle navigation to chart screen
-                }
-                R.id.navigation_bar_menu_home -> {
-                    // handle navigation to home screen
                 }
                 R.id.navigation_bar_menu_favorites -> {
                     // handle navigation to favorites screen
