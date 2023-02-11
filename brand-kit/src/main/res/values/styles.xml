@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CurrencyConverterSecondaryButtonStyle">
+        <item name="android:textColor">@color/currency_converter_light_900</item>
+        <item name="backgroundTint">@color/currency_converter_light_A100</item>
+    </style>
+
+    <style name="CurrencyConverterPrimaryButtonStyle">
+        <item name="android:textColor">@color/currency_converter_light_A100</item>
+        <item name="backgroundTint">@color/currency_converter_light_900</item>
+    </style>
+
+    <style name="CurrencyConverterPrimaryTextStyle">
+        <item name="android:textSize">@dimen/currency_converter_primary_text_size</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CurrencyConverterSecondaryTextStyle">
+        <item name="android:textSize">@dimen/currency_converter_secondary_text_size</item>
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+</resources>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="currency_conversion_add_currency">+ Add currency</string>
+    <string name="currency_conversion_mid_market_rates">Mid-market rates</string>
+
+</resources>
