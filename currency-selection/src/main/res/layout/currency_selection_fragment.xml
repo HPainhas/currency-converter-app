@@ -10,19 +10,23 @@
 
     <Spinner
         android:id="@+id/currency_selection_spinner_first_choice"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
         android:layout_width="match_parent"
-        android:layout_height="56dp" />
+        android:layout_height="@dimen/currency_selection_spinner_height"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/currency_selection_spinner_second_choice"
-        app:layout_constraintStart_toStartOf="@id/currency_selection_spinner_first_choice"
-        app:layout_constraintEnd_toEndOf="@id/currency_selection_spinner_first_choice"
-        app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_first_choice"
-        android:layout_marginTop="10dp"
+        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
         android:layout_width="match_parent"
-        android:layout_height="56dp" />
+        android:layout_height="@dimen/currency_selection_spinner_height"
+        android:layout_marginTop="10dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintEnd_toEndOf="@id/currency_selection_spinner_first_choice"
+        app:layout_constraintStart_toStartOf="@id/currency_selection_spinner_first_choice"
+        app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_first_choice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
