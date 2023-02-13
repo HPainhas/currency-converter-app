@@ -11,6 +11,7 @@ import com.example.currencyconverter.currency.favorite.CurrencyFavoriteFragment
 import com.example.currencyconverter.currency.history.chart.CurrencyHistoryChartFragment
 import com.example.currencyconverter.navigationbar.databinding.NavigationBarFragmentBinding
 
+
 class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
 
     private lateinit var binding: NavigationBarFragmentBinding
@@ -27,12 +28,14 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        replaceFragment(CurrencyConversionFragment())
+        if (savedInstanceState == null) {
+            setUpNavigationBarMenuItemListeners()
+            replaceFragment(CurrencyConversionFragment())
+            updateActionBar(CurrencyConversionFragment().javaClass.simpleName)
 
-        setUpNavigationBarMenuItemListeners()
-
-        // Start the app with the convert fragment selected
-        binding.navigationBar.selectedItemId = R.id.navigation_bar_menu_convert
+            // Start the app with the convert fragment selected
+            binding.navigationBar.selectedItemId = R.id.navigation_bar_menu_convert
+        }
     }
 
     private fun setUpNavigationBarMenuItemListeners() {
@@ -45,6 +48,7 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
             }
 
             replaceFragment(fragment)
+            updateActionBar(fragment.javaClass.simpleName)
             return@OnItemSelectedListener true
         }
 
@@ -61,6 +65,17 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
                 }
             }
         }
+    }
+
+    private fun updateActionBar(fragmentName: String) {
+        val title = when(fragmentName) {
+            "CurrencyConversionFragment" -> context?.getString(R.string.navigation_bar_toolbar_title_convert)
+            "CurrencyHistoryChartFragment" -> context?.getString(R.string.navigation_bar_toolbar_title_chart)
+            "CurrencyFavoriteFragment" ->context?.getString(R.string.navigation_bar_toolbar_title_favorites)
+            else -> ""
+        }
+
+        binding.navigationBarToolbarTitle.text = title
     }
 
     private fun replaceFragment(fragment: Fragment) {

@@ -5,4 +5,9 @@
     <string name="navigation_bar_menu_chart">Chart</string>
     <string name="navigation_bar_menu_favorites">Favorites</string>
 
+    <string name="navigation_bar_toolbar_title_app_name">CurrencyConverterApp |</string>
+    <string name="navigation_bar_toolbar_title_convert">Convert</string>
+    <string name="navigation_bar_toolbar_title_chart">Chart</string>
+    <string name="navigation_bar_toolbar_title_favorites">Favorites</string>
+
 </resources>

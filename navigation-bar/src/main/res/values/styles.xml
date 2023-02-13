@@ -9,4 +9,10 @@
         <item name="itemRippleColor">@color/currency_converter_light_50</item>
     </style>
 
+    <style name="ToolbarTitleTextStyle">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/navigation_bar_toolbar_title_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 </resources>
