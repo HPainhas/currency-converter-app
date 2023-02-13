@@ -61,7 +61,18 @@
         app:layout_constraintTop_toTopOf="@id/currency_selection_item_dropdown"
         app:layout_constraintBottom_toBottomOf="@id/currency_selection_item_dropdown"
         android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
-        tools:text="$ 1,000,000,000,000" />
+        tools:text="$ 1,000" />
+
+    <TextView
+        android:id="@+id/currency_selection_item_exchange_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/currency_selection_item_amount"
+        app:layout_constraintTop_toBottomOf="@id/currency_selection_item_amount"
+        android:textAppearance="@style/CurrencySelectionSpinnerItemExchangeRateTextStyle"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="1 BRA = 0.19 USD" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
