@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/currency_selection_fragment"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -14,9 +15,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/currency_selection_spinner_height"
         android:spinnerMode="dropdown"
+        android:dropDownSelector="@drawable/ic_dropdown"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/currency_selection_item" />
 
     <Spinner
         android:id="@+id/currency_selection_spinner_second_choice"
@@ -25,8 +28,10 @@
         android:layout_height="@dimen/currency_selection_spinner_height"
         android:layout_marginTop="10dp"
         android:spinnerMode="dropdown"
+        android:dropDownSelector="@drawable/ic_dropdown"
         app:layout_constraintEnd_toEndOf="@id/currency_selection_spinner_first_choice"
         app:layout_constraintStart_toStartOf="@id/currency_selection_spinner_first_choice"
-        app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_first_choice" />
+        app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_first_choice"
+        tools:listitem="@layout/currency_selection_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,72 @@
+[
+  {
+    "symbol": "USD",
+    "country": "United States",
+    "rate": 1.0,
+    "flag_url": "https://flagpedia.net/data/flags/normal/us.png",
+    "image_name": "us.png"
+  },
+  {
+    "symbol": "EUR",
+    "country": "European Union",
+    "rate": 0.83,
+    "flag_url": "https://flagcdn.com/w80/eu.jpg",
+    "image_name": "eu.png"
+  },
+  {
+    "symbol": "JPY",
+    "country": "Japan",
+    "rate": 110.51,
+    "flag_url": "https://flagpedia.net/data/flags/normal/jp.png",
+    "image_name": "jp.png"
+  },
+  {
+    "symbol": "GBP",
+    "country": "United Kingdom",
+    "rate": 0.72,
+    "flag_url": "https://flagpedia.net/data/flags/normal/gb.png",
+    "image_name": "gb.png"
+  },
+  {
+    "symbol": "CHF",
+    "country": "Switzerland",
+    "rate": 0.91,
+    "flag_url": "https://flagpedia.net/data/flags/normal/ch.png",
+    "image_name": "ch.png"
+  },
+  {
+    "symbol": "BRL",
+    "country": "Brazil",
+    "rate": 6.31,
+    "flag_url": "https://flagpedia.net/data/flags/normal/br.png",
+    "image_name": "br.png"
+  },
+  {
+    "symbol": "MXN",
+    "country": "Mexico",
+    "rate": 19.49,
+    "flag_url": "https://flagpedia.net/data/flags/normal/mx.png",
+    "image_name": "mx.png"
+  },
+  {
+    "symbol": "CAD",
+    "country": "Canada",
+    "rate": 1.26,
+    "flag_url": "https://flagpedia.net/data/flags/normal/ca.png",
+    "image_name": "ca.png"
+  },
+  {
+    "symbol": "AED",
+    "country": "United Arab Emirates",
+    "rate": 3.67,
+    "flag_url": "https://flagpedia.net/data/flags/normal/ae.png",
+    "image_name": "ae.png"
+  },
+  {
+    "symbol": "AUD",
+    "country": "Australia",
+    "rate": 1.35,
+    "flag_url": "https://flagpedia.net/data/flags/normal/au.png",
+    "image_name": "au.png"
+  }
+]

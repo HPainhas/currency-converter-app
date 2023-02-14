@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.example.currencyconverter.currency.selection'
+    namespace 'com.example.currencyconverter.util'
     compileSdk 33
 
     defaultConfig {
@@ -35,11 +35,11 @@ android {
 
 dependencies {
     // Modules
-    implementation project(':brand-kit')
-    implementation project(':util')
+    implementation project(path: ':brand-kit')
 
-    // GSON
-    implementation 'com.google.code.gson:gson:2.10.1'
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.12.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
 
     // Android Swipe Refresh Layout
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"

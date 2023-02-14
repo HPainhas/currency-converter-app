@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/currency_selection_layout"
-        layout="@layout/currency_selection_fragment"/>
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/currency_conversion_fragment_container_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:layout="@layout/currency_selection_fragment"/>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/currency_conversion_add_currency_button"
@@ -14,8 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="56dp"
         android:text="@string/currency_conversion_add_currency"
-        app:layout_constraintStart_toStartOf="@id/currency_selection_layout"
-        app:layout_constraintTop_toBottomOf="@id/currency_selection_layout" />
+        app:layout_constraintStart_toStartOf="@id/currency_conversion_fragment_container_view"
+        app:layout_constraintTop_toBottomOf="@id/currency_conversion_fragment_container_view" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,7 +33,7 @@
         android:textAppearance="@style/CurrencyConverterSecondaryTextStyle"
         app:drawableEndCompat="@drawable/ic_info_outline"
         app:drawableTint="@color/gray"
-        app:layout_constraintEnd_toEndOf="@id/currency_selection_layout"
-        app:layout_constraintTop_toBottomOf="@id/currency_selection_layout" />
+        app:layout_constraintEnd_toEndOf="@id/currency_conversion_fragment_container_view"
+        app:layout_constraintTop_toBottomOf="@id/currency_conversion_fragment_container_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
