@@ -19,6 +19,7 @@
     <style name="CurrencyConverterSecondaryTextStyle">
         <item name="android:textSize">@dimen/currency_converter_secondary_text_size</item>
         <item name="android:textColor">@color/gray</item>
+        <item name="android:textAlignment">center</item>
     </style>
 
 </resources>
