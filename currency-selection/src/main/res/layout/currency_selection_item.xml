@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/currency_selection_item_min_height"
-    android:paddingHorizontal="@dimen/currency_selection_item_padding_horizontal">
+    android:paddingHorizontal="@dimen/currency_selection_item_padding_horizontal"
+    android:paddingVertical="@dimen/currency_selection_item_padding_vertical">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/currency_selection_item_flag_container"

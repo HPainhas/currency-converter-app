@@ -47,7 +47,7 @@ class CurrencySelectionSpinnerAdapter(
         )
 
         viewHolder.symbol.text = selectedCurrency.symbol
-        viewHolder.amount.text = amount
+        viewHolder.amount.text = context.getString(R.string.currency_selection_item_amount, amount)
         viewHolder.rate.visibility = if (shouldShowExchangeRate) View.VISIBLE else View.GONE
 
         if (viewHolder.rate.isVisible) {
