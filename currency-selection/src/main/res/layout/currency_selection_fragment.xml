@@ -9,29 +9,88 @@
     <!--  Make this a dynamic recyclerView where multiple
      currencies can be converted at the same time-->
 
-    <Spinner
-        android:id="@+id/currency_selection_spinner_first_choice"
-        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+    <LinearLayout
+        android:id="@+id/currency_selection_spinner_first_choice_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dropDownSelector="@drawable/ic_dropdown"
-        android:spinnerMode="dropdown"
+        android:layout_height="56dp"
+        android:background="@drawable/currency_selection_spinner_container_background"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/currency_selection_item" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <Spinner
-        android:id="@+id/currency_selection_spinner_second_choice"
-        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+        <Spinner
+            android:id="@+id/currency_selection_spinner_first_choice"
+            style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:dropDownSelector="@drawable/ic_dropdown"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/currency_selection_item" />
+
+        <TextView
+            android:id="@+id/currency_selection_amount"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:gravity="center_vertical|end"
+            android:paddingEnd="10dp"
+            android:text="@string/currency_selection_item_initial_amount"
+            android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
+            tools:text="$ 1,000.00" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/currency_selection_spinner_second_choice_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:layout_marginTop="10dp"
-        android:dropDownSelector="@drawable/ic_dropdown"
-        android:spinnerMode="dropdown"
-        app:layout_constraintEnd_toEndOf="@id/currency_selection_spinner_first_choice"
-        app:layout_constraintStart_toStartOf="@id/currency_selection_spinner_first_choice"
-        app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_first_choice"
-        tools:listitem="@layout/currency_selection_item" />
+        android:background="@drawable/currency_selection_spinner_container_background"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@id/currency_selection_spinner_first_choice_container"
+        app:layout_constraintStart_toStartOf="@id/currency_selection_spinner_first_choice_container"
+        app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_first_choice_container">
+
+        <Spinner
+            android:id="@+id/currency_selection_spinner_second_choice"
+            style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.6"
+            android:dropDownSelector="@drawable/ic_dropdown"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/currency_selection_item" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:gravity="center_vertical|end"
+            android:orientation="vertical"
+            android:paddingEnd="10dp">
+
+            <TextView
+                android:id="@+id/currency_selection_converted_amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="@string/currency_selection_item_initial_amount"
+                android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
+                tools:text="$ 192.57" />
+
+            <TextView
+                android:id="@+id/currency_selection_exchange_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:textAppearance="@style/CurrencySelectionSpinnerItemExchangeRateTextStyle"
+                android:visibility="gone"
+                tools:text="1 BRL = 0.19 USD" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

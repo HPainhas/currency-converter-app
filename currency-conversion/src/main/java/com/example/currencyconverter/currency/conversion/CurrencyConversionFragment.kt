@@ -9,18 +9,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.example.currencyconverter.currency.conversion.databinding.CurrencyConversionFragmentBinding
+import com.example.currencyconverter.currency.selection.CurrencyExchangeViewModel
 import com.example.currencyconverter.currency.selection.CurrencySelectionFragment
 import java.text.DecimalFormat
 
 class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragment) {
 
-    private val MAX_LENGTH = 10
-    private val ERROR_TIMEOUT = 5000L
-
     private lateinit var handler: Handler
     private lateinit var binding: CurrencyConversionFragmentBinding
+
+    private val currencyExchangeViewModel: CurrencyExchangeViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,6 +35,8 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        handler = Handler(Looper.getMainLooper())
+
         parentFragmentManager.commit {
             add(
                 R.id.currency_conversion_fragment_container_view,
@@ -41,12 +44,17 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
             )
         }
 
-        handler = Handler(Looper.getMainLooper())
+        setUpCurrencyAmountEditTextListener()
 
-        setUpEditTextListener()
+        binding.currencyConversionConvertButton.setOnClickListener {
+            val enteredAmount = binding.currencyConversionAmount.text
+            if (!enteredAmount.isNullOrEmpty()) {
+                currencyExchangeViewModel.amount.value = enteredAmount.toString()
+            }
+        }
     }
 
-    private fun setUpEditTextListener() {
+    private fun setUpCurrencyAmountEditTextListener() {
         val editTextAmount = binding.currencyConversionAmount
 
         editTextAmount.addTextChangedListener(object : TextWatcher {
@@ -85,5 +93,10 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
 
     private fun getFormattedString(s: String) =
         DecimalFormat("#,###,###,###").format(s.toLong())
+
+    companion object {
+        private const val MAX_LENGTH = 10
+        private const val ERROR_TIMEOUT = 5000L
+    }
 
 }

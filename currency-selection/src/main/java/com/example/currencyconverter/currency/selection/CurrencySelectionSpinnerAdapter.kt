@@ -7,17 +7,15 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.view.isVisible
 import com.example.currencyconverter.util.Util
 
 class CurrencySelectionSpinnerAdapter(
-    private val context: Context,
-    private val amount: String,
+    context: Context,
     private var currencyList: List<CurrencyItemViewModel>,
-    private var shouldShowExchangeRate: Boolean,
 ) : BaseAdapter() {
 
-    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val inflater: LayoutInflater =
+        context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getCount(): Int = currencyList.size
 
@@ -40,43 +38,26 @@ class CurrencySelectionSpinnerAdapter(
 
         val selectedCurrency = currencyList[position]
 
-        Util.loadImage(
-            viewHolder.flag,
-            selectedCurrency.flag_url,
-            Util.getProgressDrawable(viewHolder.flag.context)
-        )
-
-        viewHolder.symbol.text = selectedCurrency.symbol
-        viewHolder.amount.text = context.getString(R.string.currency_selection_item_amount, amount)
-        viewHolder.rate.visibility = if (shouldShowExchangeRate) View.VISIBLE else View.GONE
-
-        if (viewHolder.rate.isVisible) {
-            viewHolder.rate.text = getFormattedExchangeRate(selectedCurrency)
+        selectedCurrency.flagUrl.value?.let {
+            Util.loadImage(
+                viewHolder.flag,
+                it,
+                Util.getProgressDrawable(viewHolder.flag.context)
+            )
         }
 
-        return view
-    }
+        viewHolder.symbol.text = selectedCurrency.symbol.value
 
-    private fun getFormattedExchangeRate(currencyItemViewModel: CurrencyItemViewModel): String {
-        return context.getString(
-            R.string.currency_selection_item_exchange_rate_conversion,
-            currencyItemViewModel.symbol,
-            currencyItemViewModel.rate.toString(),
-            currencyItemViewModel.symbol,
-        )
+        return view
     }
 
     class CurrencyViewHolder(itemView: View) {
         val flag: ImageView
         val symbol: TextView
-        val amount: TextView
-        val rate: TextView
 
         init {
             flag = itemView.findViewById(R.id.currency_selection_item_flag) as ImageView
             symbol = itemView.findViewById(R.id.currency_selection_item_symbol) as TextView
-            amount = itemView.findViewById(R.id.currency_selection_item_amount) as TextView
-            rate = itemView.findViewById(R.id.currency_selection_item_exchange_rate) as TextView
         }
     }
 }

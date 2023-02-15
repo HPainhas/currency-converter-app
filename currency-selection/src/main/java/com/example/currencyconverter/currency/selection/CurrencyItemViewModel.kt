@@ -1,9 +1,28 @@
 package com.example.currencyconverter.currency.selection
 
-data class CurrencyItemViewModel(
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+open class CurrencyItemViewModel : ViewModel() {
+    val symbol = MutableLiveData<String>()
+    val country = MutableLiveData<String>()
+    val rate = MutableLiveData<Double>()
+    val flagUrl = MutableLiveData<String>()
+    val imageName = MutableLiveData<String>()
+
+    fun updateData(symbol: String?, country: String?, rate: Double?, flagUrl: String?, imageName: String?) {
+        this.symbol.value = symbol
+        this.country.value = country
+        this.rate.value = rate
+        this.flagUrl.value = flagUrl
+        this.imageName.value = imageName
+    }
+}
+
+data class CurrencyItem(
     val symbol: String,
     val country: String,
-    val flag_url: String,
-    val image_name: String,
-    val rate: Float
+    val rate: Double,
+    val flagUrl: String,
+    val imageName: String
 )

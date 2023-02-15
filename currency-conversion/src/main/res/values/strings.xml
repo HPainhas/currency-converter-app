@@ -3,6 +3,7 @@
 
     <string name="currency_conversion_amount_header">How much would you like to convert?</string>
     <string name="currency_conversion_amount_hint">Enter amount</string>
+    <string name="currency_conversion_convert">Convert</string>
     <string name="currency_conversion_add_currency">+ Add currency</string>
     <string name="currency_conversion_mid_market_rates">Mid-market rates</string>
 

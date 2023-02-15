@@ -2,10 +2,14 @@
 <resources>
 
     <dimen name="currency_conversion_amount__header_margin_top">10dp</dimen>
-    <dimen name="currency_conversion_amount_margin_top">10dp</dimen>
+    <dimen name="currency_conversion_amount_margin_top">20dp</dimen>
     <dimen name="currency_conversion_amount_padding_horizontal">10dp</dimen>
 
-    <dimen name="currency_conversion_fragment_container_view_margin_top">10dp</dimen>
+    <dimen name="currency_conversion_convert_button_margin_start">10dp</dimen>
+
+    <dimen name="currency_conversion_fragment_container_view_margin_top">20dp</dimen>
+
+    <dimen name="currency_conversion_footer_layout_margin_top">20dp</dimen>
 
     <dimen name="currency_conversion_mid_market_rates_height">56dp</dimen>
     <dimen name="currency_conversion_mid_market_rates_drawable_padding">5dp</dimen>

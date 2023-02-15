@@ -7,9 +7,11 @@
     <dimen name="currency_selection_item_padding_horizontal">5dp</dimen>
     <dimen name="currency_selection_item_padding_vertical">5dp</dimen>
 
-    <dimen name="currency_selection_item_currency_flag_container_width">60dp</dimen>
-    <dimen name="currency_selection_item_currency_flag_container_height">40dp</dimen>
-    <dimen name="currency_selection_item_currency_flag_container_card_corner_radius">8dp</dimen>
+    <dimen name="currency_selection_item_currency_flag_container_width">45dp</dimen>
+    <dimen name="currency_selection_item_currency_flag_container_height">30dp</dimen>
+    <dimen name="currency_selection_item_currency_flag_container_card_corner_radius">4dp</dimen>
+
+    <dimen name="currency_selection_item_flag_margin_start">10dp</dimen>
 
     <dimen name="currency_selection_item_currency_symbol_margin_start">10dp</dimen>
     <dimen name="currency_selection_item_currency_symbol_text_size">16sp</dimen>

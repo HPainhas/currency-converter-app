@@ -32,6 +32,17 @@
         app:layout_constraintStart_toStartOf="@id/currency_conversion_amount_header"
         app:layout_constraintTop_toBottomOf="@id/currency_conversion_amount_header" />
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/currency_conversion_convert_button"
+        style="@style/CurrencyConverterPrimaryButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/currency_conversion_convert_button_margin_start"
+        android:text="@string/currency_conversion_convert"
+        app:layout_constraintBottom_toBottomOf="@id/currency_conversion_amount"
+        app:layout_constraintStart_toEndOf="@+id/currency_conversion_amount"
+        app:layout_constraintTop_toTopOf="@id/currency_conversion_amount" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/currency_conversion_fragment_container_view"
         android:layout_width="match_parent"
@@ -41,27 +52,36 @@
         app:layout_constraintStart_toStartOf="@id/currency_conversion_amount"
         app:layout_constraintTop_toBottomOf="@id/currency_conversion_amount"
         tools:layout="@layout/currency_selection_fragment"
-        tools:layout_height="120dp" />
+        tools:layout_height="125dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/currency_conversion_add_currency_button"
-        style="@style/CurrencyConverterSecondaryButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/currency_converter_button_height"
-        android:text="@string/currency_conversion_add_currency"
-        app:layout_constraintStart_toStartOf="@id/currency_conversion_fragment_container_view"
-        app:layout_constraintTop_toBottomOf="@id/currency_conversion_fragment_container_view" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/currency_conversion_mid_market_rates_height"
-        android:drawablePadding="@dimen/currency_conversion_mid_market_rates_drawable_padding"
-        android:gravity="center_vertical"
-        android:text="@string/currency_conversion_mid_market_rates"
-        android:textAppearance="@style/CurrencyConverterSecondaryTextStyle"
-        app:drawableEndCompat="@drawable/ic_info_outline"
-        app:drawableTint="@color/gray"
+    <LinearLayout
+        android:id="@+id/currency_conversion_footer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_conversion_footer_layout_margin_top"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="@id/currency_conversion_fragment_container_view"
-        app:layout_constraintTop_toBottomOf="@id/currency_conversion_fragment_container_view" />
+        app:layout_constraintStart_toStartOf="@id/currency_conversion_fragment_container_view"
+        app:layout_constraintTop_toBottomOf="@id/currency_conversion_fragment_container_view">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/currency_conversion_add_currency_button"
+            style="@style/CurrencyConverterSecondaryButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/currency_converter_button_height"
+            android:layout_gravity="center_vertical"
+            android:text="@string/currency_conversion_add_currency" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/currency_conversion_mid_market_rates_height"
+            android:drawablePadding="@dimen/currency_conversion_mid_market_rates_drawable_padding"
+            android:gravity="center_vertical|end"
+            android:text="@string/currency_conversion_mid_market_rates"
+            android:textAppearance="@style/CurrencyConverterSecondaryTextStyle"
+            app:drawableEndCompat="@drawable/ic_info_outline"
+            app:drawableTint="@color/gray" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
