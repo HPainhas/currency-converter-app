@@ -40,6 +40,7 @@ dependencies {
     implementation project(path: ':currency-conversion')
     implementation project(path: ':currency-favorite')
     implementation project(path: ':currency-history-chart')
+    implementation project(path: ':currency-selection')
 
     // Google
     implementation 'com.google.android.material:material:1.8.0'

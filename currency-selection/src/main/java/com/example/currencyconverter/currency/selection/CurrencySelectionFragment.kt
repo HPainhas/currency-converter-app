@@ -1,6 +1,7 @@
 package com.example.currencyconverter.currency.selection
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,13 +16,13 @@ import com.google.gson.reflect.TypeToken
 class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment) {
 
     private lateinit var binding: CurrencySelectionFragmentBinding
+    private lateinit var currencyItemViewModels: CurrencyItemViewModels
     private lateinit var firstCurrencySelectionSpinner: Spinner
     private lateinit var secondCurrencySelectionSpinner: Spinner
     private lateinit var currencyItemViewModelList: List<CurrencyItemViewModel>
 
-    private val currencyItemViewModelFirst: CurrencyItemViewModel by activityViewModels()
-    private val currencyItemViewModelSecond: CurrencyItemViewModel by activityViewModels()
-    private val currencyExchangeViewModel: CurrencyExchangeViewModel by activityViewModels()
+    private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
+    private val currencySelectionConvertedAmountViewModel: CurrencySelectionConvertedAmountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -35,25 +36,27 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        currencyItemViewModelList = mapToViewModels(parseJson())
-        firstCurrencySelectionSpinner =  binding.currencySelectionSpinnerFirstChoice
-        secondCurrencySelectionSpinner =  binding.currencySelectionSpinnerSecondChoice
-
         if (savedInstanceState == null) {
-            setUpCurrencySelectionSpinnerAdapter()
-            setUpCurrencyExchangeViewModelObserver()
-
-            firstCurrencySelectionSpinner.onItemSelectedListener =
-                setUpCurrencySelectionSpinnerListener(currencyItemViewModelFirst)
-
-            secondCurrencySelectionSpinner.onItemSelectedListener =
-                setUpCurrencySelectionSpinnerListener(currencyItemViewModelSecond)
-
-            if (currencyItemViewModelList.size > 1) {
-                firstCurrencySelectionSpinner.setSelection(0)
-                secondCurrencySelectionSpinner.setSelection(1)
+            arguments?.getSerializable("currencyItemViewModels")?.let {
+                currencyItemViewModels = it as CurrencyItemViewModels
             }
+
+            currencyItemViewModelList = mapToViewModels(parseJson())
+            firstCurrencySelectionSpinner =  binding.currencySelectionSpinnerFirstChoice
+            secondCurrencySelectionSpinner =  binding.currencySelectionSpinnerSecondChoice
+
+            setUpCurrencySelectionSpinnerAdapter()
+            setUpCurrencySelectionSpinnerListener()
+            setUpCurrencyExchangeViewModelObserver()
         }
+    }
+
+    private fun setUpCurrencySelectionSpinnerListener() {
+        firstCurrencySelectionSpinner.onItemSelectedListener =
+            getCurrencySelectionSpinnerListener(currencyItemViewModels.first)
+
+        secondCurrencySelectionSpinner.onItemSelectedListener =
+            getCurrencySelectionSpinnerListener(currencyItemViewModels.second)
     }
 
     private fun setUpCurrencySelectionSpinnerAdapter() {
@@ -66,9 +69,14 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             activity?.let {
                 CurrencySelectionSpinnerAdapter(it,  currencyItemViewModelList)
             }
+
+        if (currencyItemViewModelList.size > 1) {
+            firstCurrencySelectionSpinner.setSelection(0)
+            secondCurrencySelectionSpinner.setSelection(1)
+        }
     }
 
-    private fun setUpCurrencySelectionSpinnerListener(viewModel: CurrencyItemViewModel) : AdapterView.OnItemSelectedListener {
+    private fun getCurrencySelectionSpinnerListener(viewModel: CurrencyItemViewModel) : AdapterView.OnItemSelectedListener {
         return object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>,
@@ -92,11 +100,18 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     private fun setUpCurrencyExchangeViewModelObserver() {
-//        currencyExchangeViewModel.amount.observe(viewLifecycleOwner) {
-//            currencyExchangeViewModel.updateExchangeRateAndConvertedAmount()
-//            binding.currencySelectionAmount.text = currencyExchangeViewModel.amount.value
-//            binding.currencySelectionConvertedAmount.text = currencyExchangeViewModel.convertedAmount.value
-//        }
+        currencySelectionAmountViewModel.amount.observe(viewLifecycleOwner) {
+            Log.d("HENRIQUE", "amount -> ${currencySelectionAmountViewModel.amount.value}")
+            Log.d("HENRIQUE", "convertedAmount -> ${currencySelectionConvertedAmountViewModel.convertedAmount.value}")
+            Log.d("HENRIQUE", "exchangeRate -> ${currencySelectionConvertedAmountViewModel.exchangeRate.value}")
+
+            binding.currencySelectionAmount.text =
+                currencySelectionAmountViewModel.amount.value
+            binding.currencySelectionConvertedAmount.text =
+                currencySelectionConvertedAmountViewModel.convertedAmount.value
+            binding.currencySelectionExchangeRate.text =
+                currencySelectionConvertedAmountViewModel.exchangeRate.value
+        }
     }
 
     private fun parseJson(): List<CurrencyItem> {
@@ -117,5 +132,12 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
 
     companion object {
         private const val FILENAME = "currencies_dummies.json"
+
+        fun newInstance(currencyItemViewModels: CurrencyItemViewModels) =
+            CurrencySelectionFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable("currencyItemViewModels", currencyItemViewModels)
+                }
+            }
     }
 }

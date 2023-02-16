@@ -12,16 +12,17 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.example.currencyconverter.currency.conversion.databinding.CurrencyConversionFragmentBinding
-import com.example.currencyconverter.currency.selection.CurrencyExchangeViewModel
-import com.example.currencyconverter.currency.selection.CurrencySelectionFragment
+import com.example.currencyconverter.currency.selection.*
 import java.text.DecimalFormat
 
 class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragment) {
 
     private lateinit var handler: Handler
     private lateinit var binding: CurrencyConversionFragmentBinding
+    private lateinit var currencyItemViewModels: CurrencyItemViewModels
 
-    private val currencyExchangeViewModel: CurrencyExchangeViewModel by activityViewModels()
+    private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
+//    private val currencySelectionConvertedAmountViewModel: CurrencySelectionConvertedAmountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,19 +38,25 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
 
         handler = Handler(Looper.getMainLooper())
 
-        parentFragmentManager.commit {
-            add(
-                R.id.currency_conversion_fragment_container_view,
-                CurrencySelectionFragment()
-            )
-        }
+        if (savedInstanceState == null) {
+            arguments?.getSerializable("currencyItemViewModels")?.let {
+                currencyItemViewModels = it as CurrencyItemViewModels
+            }
 
-        setUpCurrencyAmountEditTextListener()
+            parentFragmentManager.commit {
+                add(
+                    R.id.currency_conversion_fragment_container_view,
+                    CurrencySelectionFragment.newInstance(currencyItemViewModels)
+                )
+            }
 
-        binding.currencyConversionConvertButton.setOnClickListener {
-            val enteredAmount = binding.currencyConversionAmount.text
-            if (!enteredAmount.isNullOrEmpty()) {
-                currencyExchangeViewModel.amount.value = enteredAmount.toString()
+            setUpCurrencyAmountEditTextListener()
+
+            binding.currencyConversionConvertButton.setOnClickListener {
+                val enteredAmount = binding.currencyConversionAmount.text
+                if (!enteredAmount.isNullOrEmpty()) {
+                    currencySelectionAmountViewModel.updateAmount(enteredAmount.toString())
+                }
             }
         }
     }
@@ -70,6 +77,9 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
                     editTextAmount.setText(formattedString)
                     editTextAmount.setSelection(formattedString.length)
                 }
+
+                // TODO - Observer the changes after every character by calling
+                //  currencyExchangeViewModel.amount.observe(viewLifecycleOwner)
             }
 
             override fun afterTextChanged(s: Editable?) {
@@ -97,6 +107,12 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
     companion object {
         private const val MAX_LENGTH = 10
         private const val ERROR_TIMEOUT = 5000L
-    }
 
+        fun newInstance(currencyItemViewModels: CurrencyItemViewModels) =
+            CurrencyConversionFragment().apply {
+                arguments = Bundle().apply {
+                    putSerializable("currencyItemViewModels", currencyItemViewModels)
+                }
+            }
+    }
 }

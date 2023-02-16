@@ -2,6 +2,20 @@ package com.example.currencyconverter.currency.selection
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.io.Serializable
+
+data class CurrencyItem(
+    val symbol: String,
+    val country: String,
+    val rate: Double,
+    val flagUrl: String,
+    val imageName: String
+)
+
+data class CurrencyItemViewModels(
+    val first: CurrencyItemViewModel,
+    val second: CurrencyItemViewModel,
+) : Serializable
 
 open class CurrencyItemViewModel : ViewModel() {
     val symbol = MutableLiveData<String>()
@@ -18,11 +32,3 @@ open class CurrencyItemViewModel : ViewModel() {
         this.imageName.value = imageName
     }
 }
-
-data class CurrencyItem(
-    val symbol: String,
-    val country: String,
-    val rate: Double,
-    val flagUrl: String,
-    val imageName: String
-)
