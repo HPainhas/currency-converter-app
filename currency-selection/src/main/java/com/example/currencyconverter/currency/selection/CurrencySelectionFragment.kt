@@ -17,8 +17,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
 
     private lateinit var binding: CurrencySelectionFragmentBinding
     private lateinit var currencyItemViewModels: CurrencyItemViewModels
-    private lateinit var firstCurrencySelectionSpinner: Spinner
-    private lateinit var secondCurrencySelectionSpinner: Spinner
+    private lateinit var fromCurrencySelectionSpinner: Spinner
+    private lateinit var toCurrencySelectionSpinner: Spinner
     private lateinit var currencyItemViewModelList: List<CurrencyItemViewModel>
 
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
@@ -42,21 +42,21 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             }
 
             currencyItemViewModelList = mapToViewModels(parseJson())
-            firstCurrencySelectionSpinner =  binding.currencySelectionSpinnerFirstChoice
-            secondCurrencySelectionSpinner =  binding.currencySelectionSpinnerSecondChoice
+            fromCurrencySelectionSpinner =  binding.currencySelectionSpinnerFirstChoice
+            toCurrencySelectionSpinner =  binding.currencySelectionSpinnerSecondChoice
 
             setUpCurrencySelectionSpinnerAdapter()
             setUpCurrencySelectionSpinnerListener()
-            setUpCurrencyExchangeViewModelObserver()
+            setUpCurrencySelectionViewModelObservers()
         }
     }
 
     private fun setUpCurrencySelectionSpinnerListener() {
-        firstCurrencySelectionSpinner.onItemSelectedListener =
-            getCurrencySelectionSpinnerListener(currencyItemViewModels.first)
+        fromCurrencySelectionSpinner.onItemSelectedListener =
+            getCurrencySelectionSpinnerListener(currencyItemViewModels.from)
 
-        secondCurrencySelectionSpinner.onItemSelectedListener =
-            getCurrencySelectionSpinnerListener(currencyItemViewModels.second)
+        toCurrencySelectionSpinner.onItemSelectedListener =
+            getCurrencySelectionSpinnerListener(currencyItemViewModels.to)
     }
 
     private fun setUpCurrencySelectionSpinnerAdapter() {
@@ -71,8 +71,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             }
 
         if (currencyItemViewModelList.size > 1) {
-            firstCurrencySelectionSpinner.setSelection(0)
-            secondCurrencySelectionSpinner.setSelection(1)
+            fromCurrencySelectionSpinner.setSelection(0)
+            toCurrencySelectionSpinner.setSelection(1)
         }
     }
 
@@ -99,18 +99,31 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         }
     }
 
-    private fun setUpCurrencyExchangeViewModelObserver() {
+    private fun setUpCurrencySelectionViewModelObservers() {
         currencySelectionAmountViewModel.amount.observe(viewLifecycleOwner) {
-            Log.d("HENRIQUE", "amount -> ${currencySelectionAmountViewModel.amount.value}")
-            Log.d("HENRIQUE", "convertedAmount -> ${currencySelectionConvertedAmountViewModel.convertedAmount.value}")
+            binding.currencySelectionAmount.text = getString(
+                R.string.currency_selection_item_amount,
+                currencySelectionAmountViewModel.amount.value
+            )
+        }
+
+        currencySelectionConvertedAmountViewModel.convertedAmount.observe(viewLifecycleOwner) {
+            binding.currencySelectionConvertedAmount.text = getString(
+                R.string.currency_selection_converted_amount,
+                currencySelectionConvertedAmountViewModel.convertedAmount.value
+            )
+        }
+
+        currencySelectionConvertedAmountViewModel.exchangeRate.observe(viewLifecycleOwner) {
             Log.d("HENRIQUE", "exchangeRate -> ${currencySelectionConvertedAmountViewModel.exchangeRate.value}")
 
-            binding.currencySelectionAmount.text =
-                currencySelectionAmountViewModel.amount.value
-            binding.currencySelectionConvertedAmount.text =
-                currencySelectionConvertedAmountViewModel.convertedAmount.value
-            binding.currencySelectionExchangeRate.text =
-                currencySelectionConvertedAmountViewModel.exchangeRate.value
+            val exchangeRateValue = currencySelectionConvertedAmountViewModel.exchangeRate.value
+            if (!exchangeRateValue.isNullOrEmpty()) {
+                binding.currencySelectionExchangeRate.visibility = View.VISIBLE
+                binding.currencySelectionExchangeRate.text = currencySelectionConvertedAmountViewModel.exchangeRate.value
+            } else {
+                binding.currencySelectionExchangeRate.visibility = View.GONE
+            }
         }
     }
 

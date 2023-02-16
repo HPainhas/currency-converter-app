@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.example.currencyconverter.currency.conversion.databinding.CurrencyConversionFragmentBinding
 import com.example.currencyconverter.currency.selection.*
-import java.text.DecimalFormat
+import com.example.currencyconverter.util.Util
 
 class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragment) {
 
@@ -22,7 +23,7 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
     private lateinit var currencyItemViewModels: CurrencyItemViewModels
 
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
-//    private val currencySelectionConvertedAmountViewModel: CurrencySelectionConvertedAmountViewModel by activityViewModels()
+    private val currencySelectionConvertedAmountViewModel: CurrencySelectionConvertedAmountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,11 +55,30 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
 
             binding.currencyConversionConvertButton.setOnClickListener {
                 val enteredAmount = binding.currencyConversionAmount.text
+
                 if (!enteredAmount.isNullOrEmpty()) {
-                    currencySelectionAmountViewModel.updateAmount(enteredAmount.toString())
+                    updateCurrencySelectionViewModels(enteredAmount.toString())
                 }
             }
         }
+    }
+
+    private fun updateCurrencySelectionViewModels(enteredAmount: String) {
+        val enteredAmountWithoutCommas = Util.removeAllNonNumericCharacters(enteredAmount).toDouble()
+        val convertedAmount = enteredAmountWithoutCommas / currencyItemViewModels.to.rate.value!!
+
+        Log.d("HENRIQUE", "from.symbol -> ${currencyItemViewModels.from.symbol.value!!}")
+        Log.d("HENRIQUE", "to.rate -> ${currencyItemViewModels.from.rate.value!!}")
+        Log.d("HENRIQUE", "to.symbol -> ${currencyItemViewModels.to.symbol.value!!}")
+
+        currencySelectionAmountViewModel.updateAmount(enteredAmount)
+        currencySelectionConvertedAmountViewModel.updateConvertedAmount(convertedAmount)
+        currencySelectionConvertedAmountViewModel.updateExchangeRate(
+            requireContext(),
+            currencyItemViewModels.from.symbol.value!!,
+            currencyItemViewModels.to.rate.value!!,
+            currencyItemViewModels.to.symbol.value!!
+        )
     }
 
     private fun setUpCurrencyAmountEditTextListener() {
@@ -70,8 +90,8 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) return
 
-                val cleanString = getCleanString(s.toString())
-                val formattedString = getFormattedString(cleanString)
+                val cleanString = Util.removeAllNonNumericCharacters(s.toString())
+                val formattedString = Util.getCommaFormattedString(cleanString)
 
                 if (s.toString() != formattedString) {
                     editTextAmount.setText(formattedString)
@@ -83,7 +103,7 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val cleanString = getCleanString(s.toString())
+                val cleanString = Util.removeAllNonNumericCharacters(s.toString())
 
                 if (cleanString.length >= MAX_LENGTH) {
                     editTextAmount.error = "Maximum amount reached"
@@ -97,12 +117,6 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
             }
         })
     }
-
-    private fun getCleanString(originalString: String) =
-        originalString.replace("\\D".toRegex(), "") // remove all non-numeric characters
-
-    private fun getFormattedString(s: String) =
-        DecimalFormat("#,###,###,###").format(s.toLong())
 
     companion object {
         private const val MAX_LENGTH = 10

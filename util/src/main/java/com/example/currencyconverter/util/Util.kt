@@ -5,6 +5,7 @@ import android.widget.ImageView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
+import java.text.DecimalFormat
 
 class Util {
 
@@ -24,6 +25,12 @@ class Util {
                 .load(imageUrl)
                 .into(imageView)
         }
+
+        fun removeAllNonNumericCharacters(originalString: String): String =
+            originalString.replace("\\D".toRegex(), "")
+
+        fun getCommaFormattedString(s: String): String =
+            DecimalFormat("#,###,###,###").format(s.toLong())
 
         fun getProgressDrawable(context: Context): CircularProgressDrawable {
             val progressDrawable = CircularProgressDrawable(context)

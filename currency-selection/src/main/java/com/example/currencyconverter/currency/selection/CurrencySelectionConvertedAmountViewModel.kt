@@ -5,24 +5,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 open class CurrencySelectionConvertedAmountViewModel : ViewModel() {
-    val convertedAmount = MutableLiveData<String>()
+    val convertedAmount = MutableLiveData<Double>()
     val exchangeRate = MutableLiveData<String>()
 
-    fun updateConvertedAmount(amount: String) {
+    fun updateConvertedAmount(amount: Double) {
         this.convertedAmount.value = amount
     }
 
-    fun updateExchangeRate(rate: String) {
-        this.exchangeRate.value = rate
+    fun updateExchangeRate(context: Context, fromSymbol: String, fromRate: Double, toSymbol: String) {
+        this.exchangeRate.value = context.getString(
+            R.string.currency_selection_converted_amount_exchange,
+            fromSymbol,
+            fromRate,
+            toSymbol
+        )
     }
-
-    private fun getFormattedExchangeRate(
-        context: Context,
-        currencyItemViewModel: CurrencyItemViewModel
-    ): String = context.getString(
-        R.string.currency_selection_converted_amount_exchange,
-        currencyItemViewModel.symbol,
-        currencyItemViewModel.rate.toString(),
-        currencyItemViewModel.symbol,
-    )
 }

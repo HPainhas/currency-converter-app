@@ -13,8 +13,8 @@ data class CurrencyItem(
 )
 
 data class CurrencyItemViewModels(
-    val first: CurrencyItemViewModel,
-    val second: CurrencyItemViewModel,
+    val from: CurrencyItemViewModel,
+    val to: CurrencyItemViewModel,
 ) : Serializable
 
 open class CurrencyItemViewModel : ViewModel() {
