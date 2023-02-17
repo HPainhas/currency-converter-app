@@ -7,9 +7,9 @@
 
     <TextView
         android:id="@+id/currency_conversion_amount_header"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/currency_conversion_amount__header_margin_top"
+        android:layout_marginTop="@dimen/currency_conversion_amount_header_margin_top"
         android:gravity="center"
         android:text="@string/currency_conversion_amount_header"
         android:textAppearance="@style/CurrencyConverterPrimaryTextStyle"
@@ -18,17 +18,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/currency_conversion_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/currency_conversion_amount_margin_top"
+        android:id="@+id/currency_conversion_amount_edit_text"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/currency_conversion_amount_edit_text_height"
+        android:layout_marginTop="@dimen/currency_conversion_amount_edit_text_margin_top"
         android:autofillHints=""
         android:gravity="center"
-        android:hint="@string/currency_conversion_amount_hint"
-        android:inputType="number"
-        android:maxLength="13"
-        android:paddingHorizontal="@dimen/currency_conversion_amount_padding_horizontal"
-        app:layout_constraintEnd_toEndOf="@id/currency_conversion_amount_header"
+        android:hint="@string/currency_conversion_amount_edit_text"
+        android:inputType="numberDecimal"
+        android:digits="0123456789."
+        android:paddingHorizontal="@dimen/currency_conversion_amount_edit_text_padding_horizontal"
+        app:layout_constraintEnd_toStartOf="@id/currency_conversion_convert_button"
         app:layout_constraintStart_toStartOf="@id/currency_conversion_amount_header"
         app:layout_constraintTop_toBottomOf="@id/currency_conversion_amount_header" />
 
@@ -36,23 +36,22 @@
         android:id="@+id/currency_conversion_convert_button"
         style="@style/CurrencyConverterPrimaryButtonStyle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/currency_converter_button_height"
         android:layout_marginStart="@dimen/currency_conversion_convert_button_margin_start"
         android:text="@string/currency_conversion_convert"
-        app:layout_constraintBottom_toBottomOf="@id/currency_conversion_amount"
-        app:layout_constraintStart_toEndOf="@+id/currency_conversion_amount"
-        app:layout_constraintTop_toTopOf="@id/currency_conversion_amount" />
+        app:layout_constraintEnd_toEndOf="@id/currency_conversion_amount_header"
+        app:layout_constraintBottom_toBottomOf="@id/currency_conversion_amount_edit_text"
+        app:layout_constraintTop_toTopOf="@id/currency_conversion_amount_edit_text" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/currency_conversion_fragment_container_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/currency_conversion_fragment_container_view_margin_top"
-        app:layout_constraintEnd_toEndOf="@id/currency_conversion_amount"
-        app:layout_constraintStart_toStartOf="@id/currency_conversion_amount"
-        app:layout_constraintTop_toBottomOf="@id/currency_conversion_amount"
-        tools:layout="@layout/currency_selection_fragment"
-        tools:layout_height="125dp" />
+        app:layout_constraintEnd_toEndOf="@id/currency_conversion_amount_edit_text"
+        app:layout_constraintStart_toStartOf="@id/currency_conversion_amount_edit_text"
+        app:layout_constraintTop_toBottomOf="@id/currency_conversion_amount_edit_text"
+        tools:layout="@layout/currency_selection_fragment" />
 
     <LinearLayout
         android:id="@+id/currency_conversion_footer_layout"

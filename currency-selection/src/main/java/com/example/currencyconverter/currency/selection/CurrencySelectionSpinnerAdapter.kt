@@ -11,7 +11,7 @@ import com.example.currencyconverter.util.Util
 
 class CurrencySelectionSpinnerAdapter(
     context: Context,
-    private var currencyList: List<CurrencyItemViewModel>,
+    private var currencyList: List<CurrencySelectionItem>,
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -38,7 +38,7 @@ class CurrencySelectionSpinnerAdapter(
 
         val selectedCurrency = currencyList[position]
 
-        selectedCurrency.flagUrl.value?.let {
+        selectedCurrency.flagUrl.let {
             Util.loadImage(
                 viewHolder.flag,
                 it,
@@ -46,7 +46,9 @@ class CurrencySelectionSpinnerAdapter(
             )
         }
 
-        viewHolder.symbol.text = selectedCurrency.symbol.value
+        viewHolder.symbol.text = selectedCurrency.symbol
+
+        // TODO - hide the dropdown icon on the spinner popup items
 
         return view
     }

@@ -9,14 +9,12 @@ import androidx.fragment.app.commit
 import com.example.currencyconverter.currency.conversion.CurrencyConversionFragment
 import com.example.currencyconverter.currency.favorite.CurrencyFavoriteFragment
 import com.example.currencyconverter.currency.history.chart.CurrencyHistoryChartFragment
-import com.example.currencyconverter.currency.selection.CurrencyItemViewModels
 import com.example.currencyconverter.navigationbar.databinding.NavigationBarFragmentBinding
 
 
 class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
 
     private lateinit var binding: NavigationBarFragmentBinding
-    private lateinit var currencyItemViewModels: CurrencyItemViewModels
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,13 +28,9 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.getSerializable("currencyItemViewModels")?.let {
-            currencyItemViewModels = it as CurrencyItemViewModels
-        }
-
         if (savedInstanceState == null) {
             setUpNavigationBarMenuItemListeners()
-            replaceFragment(CurrencyConversionFragment.newInstance(currencyItemViewModels))
+            replaceFragment(CurrencyConversionFragment())
             updateActionBar(CurrencyConversionFragment().javaClass.simpleName)
 
             // Start the app with the convert fragment selected
@@ -89,14 +83,5 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
             addToBackStack(null)
             replace(R.id.navigation_bar_fragment_container_view, fragment)
         }
-    }
-
-    companion object {
-        fun newInstance(currencyItemViewModels: CurrencyItemViewModels) =
-            NavigationBarFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable("currencyItemViewModels", currencyItemViewModels)
-                }
-            }
     }
 }

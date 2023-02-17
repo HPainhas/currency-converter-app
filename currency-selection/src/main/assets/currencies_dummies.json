@@ -1,5 +1,12 @@
 [
   {
+    "symbol": "BRL",
+    "country": "Brazil",
+    "rate": 5.19,
+    "flagUrl": "https://flagpedia.net/data/flags/normal/br.png",
+    "imageName": "br.png"
+  },
+  {
     "symbol": "USD",
     "country": "United States",
     "rate": 1.0,
@@ -33,13 +40,6 @@
     "rate": 0.91,
     "flagUrl": "https://flagpedia.net/data/flags/normal/ch.png",
     "imageName": "ch.png"
-  },
-  {
-    "symbol": "BRL",
-    "country": "Brazil",
-    "rate": 6.31,
-    "flagUrl": "https://flagpedia.net/data/flags/normal/br.png",
-    "imageName": "br.png"
   },
   {
     "symbol": "MXN",

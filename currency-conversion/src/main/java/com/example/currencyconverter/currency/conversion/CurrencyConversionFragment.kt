@@ -15,15 +15,14 @@ import androidx.fragment.app.commit
 import com.example.currencyconverter.currency.conversion.databinding.CurrencyConversionFragmentBinding
 import com.example.currencyconverter.currency.selection.*
 import com.example.currencyconverter.util.Util
+import java.text.DecimalFormat
 
 class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragment) {
 
     private lateinit var handler: Handler
     private lateinit var binding: CurrencyConversionFragmentBinding
-    private lateinit var currencyItemViewModels: CurrencyItemViewModels
 
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
-    private val currencySelectionConvertedAmountViewModel: CurrencySelectionConvertedAmountViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,75 +36,79 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        handler = Handler(Looper.getMainLooper())
-
         if (savedInstanceState == null) {
-            arguments?.getSerializable("currencyItemViewModels")?.let {
-                currencyItemViewModels = it as CurrencyItemViewModels
-            }
+            handler = Handler(Looper.getMainLooper())
 
             parentFragmentManager.commit {
                 add(
                     R.id.currency_conversion_fragment_container_view,
-                    CurrencySelectionFragment.newInstance(currencyItemViewModels)
+                    CurrencySelectionFragment()
                 )
             }
 
-            setUpCurrencyAmountEditTextListener()
-
             binding.currencyConversionConvertButton.setOnClickListener {
-                val enteredAmount = binding.currencyConversionAmount.text
+                val enteredAmount = binding.currencyConversionAmountEditText.text
+
+                Log.d("HENRIQUE", "enteredAmount -> $enteredAmount")
 
                 if (!enteredAmount.isNullOrEmpty()) {
-                    updateCurrencySelectionViewModels(enteredAmount.toString())
+                    val amount =
+                        Util.removeDollarSignAndCommas(enteredAmount.toString()).toDouble()
+
+                    Log.d("HENRIQUE", "amount -> $amount")
+
+                    currencySelectionAmountViewModel.updateAmount(amount)
                 }
             }
+
+            setUpCurrencyAmountEditTextListener()
         }
     }
 
-    private fun updateCurrencySelectionViewModels(enteredAmount: String) {
-        val enteredAmountWithoutCommas = Util.removeAllNonNumericCharacters(enteredAmount).toDouble()
-        val convertedAmount = enteredAmountWithoutCommas / currencyItemViewModels.to.rate.value!!
-
-        Log.d("HENRIQUE", "from.symbol -> ${currencyItemViewModels.from.symbol.value!!}")
-        Log.d("HENRIQUE", "to.rate -> ${currencyItemViewModels.from.rate.value!!}")
-        Log.d("HENRIQUE", "to.symbol -> ${currencyItemViewModels.to.symbol.value!!}")
-
-        currencySelectionAmountViewModel.updateAmount(enteredAmount)
-        currencySelectionConvertedAmountViewModel.updateConvertedAmount(convertedAmount)
-        currencySelectionConvertedAmountViewModel.updateExchangeRate(
-            requireContext(),
-            currencyItemViewModels.from.symbol.value!!,
-            currencyItemViewModels.to.rate.value!!,
-            currencyItemViewModels.to.symbol.value!!
-        )
-    }
-
     private fun setUpCurrencyAmountEditTextListener() {
-        val editTextAmount = binding.currencyConversionAmount
+        var current = ""
+        val editTextAmount = binding.currencyConversionAmountEditText
 
         editTextAmount.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Do nothing
+            }
+
+            // TODO - Observer that changes after every character by calling
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 if (s.isNullOrEmpty()) return
 
-                val cleanString = Util.removeAllNonNumericCharacters(s.toString())
-                val formattedString = Util.getCommaFormattedString(cleanString)
+                val originalString = s.toString()
+                val cleanString = Util.removeAllNonNumericCharacters(originalString)
 
-                if (s.toString() != formattedString) {
-                    editTextAmount.setText(formattedString)
-                    editTextAmount.setSelection(formattedString.length)
+                if (cleanString.length > MAX_LENGTH_CLEAN_STRING) {
+                    editTextAmount.setText(current)
+                    editTextAmount.setSelection(current.length)
+                    return
                 }
 
-                // TODO - Observer the changes after every character by calling
-                //  currencyExchangeViewModel.amount.observe(viewLifecycleOwner)
+                if (originalString != current) {
+                    editTextAmount.removeTextChangedListener(this)
+
+                    val cleanParsedString =
+                        Util.removeDollarSignCommasAndDecimalPoints(originalString).toDouble()
+                    val formatter = DecimalFormat(CURRENCY_PATTERN)
+                    val formatted = formatter.format((cleanParsedString / 100))
+
+                    current = formatted
+                    editTextAmount.setText(formatted)
+                    editTextAmount.setSelection(formatted.length)
+
+                    editTextAmount.addTextChangedListener(this)
+                }
             }
 
             override fun afterTextChanged(s: Editable?) {
-                val cleanString = Util.removeAllNonNumericCharacters(s.toString())
+                val originalString = s.toString()
+                val cleanString = Util.removeAllNonNumericCharacters(originalString)
 
-                if (cleanString.length >= MAX_LENGTH) {
+                if (cleanString.length >= MAX_LENGTH_CLEAN_STRING) {
                     editTextAmount.error = "Maximum amount reached"
                     handler.postDelayed({
                         editTextAmount.error = null
@@ -119,14 +122,8 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
     }
 
     companion object {
-        private const val MAX_LENGTH = 10
         private const val ERROR_TIMEOUT = 5000L
-
-        fun newInstance(currencyItemViewModels: CurrencyItemViewModels) =
-            CurrencyConversionFragment().apply {
-                arguments = Bundle().apply {
-                    putSerializable("currencyItemViewModels", currencyItemViewModels)
-                }
-            }
+        private const val CURRENCY_PATTERN = "$ #,###.00"
+        private const val MAX_LENGTH_CLEAN_STRING = 12
     }
 }

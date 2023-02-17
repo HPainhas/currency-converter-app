@@ -1,14 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <dimen name="currency_selection_spinner_container_height">56dp</dimen>
+    <dimen name="currency_selection_spinner_container_margin_top">10dp</dimen>
     <dimen name="currency_selection_spinner_height">56dp</dimen>
+    <dimen name="currency_selection_last_updated_drawable_padding">5dp</dimen>
+    <dimen name="currency_selection_amount_padding_end">10dp</dimen>
+    <dimen name="currency_selection_converted_amount_layout_padding_end">10dp</dimen>
+
+
 
     <dimen name="currency_selection_item_min_height">56dp</dimen>
     <dimen name="currency_selection_item_padding_horizontal">5dp</dimen>
     <dimen name="currency_selection_item_padding_vertical">5dp</dimen>
 
     <dimen name="currency_selection_item_currency_flag_container_width">45dp</dimen>
-    <dimen name="currency_selection_item_currency_flag_container_height">30dp</dimen>
+    <dimen name="currency_selection_item_currency_flag_container_height">35dp</dimen>
     <dimen name="currency_selection_item_currency_flag_container_card_corner_radius">4dp</dimen>
 
     <dimen name="currency_selection_item_flag_margin_start">10dp</dimen>
