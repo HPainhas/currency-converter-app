@@ -2,15 +2,15 @@
 <resources>
 
     <style name="CurrencyConverterPrimaryButtonStyle">
-        <item name="android:textColor">@color/currency_converter_light_A100</item>
-        <item name="backgroundTint">@color/currency_converter_light_900</item>
+        <item name="android:textColor">@color/currency_converter_primary_button_text_color</item>
+        <item name="background">@drawable/currency_converter_primary_button_background</item>
         <item name="textAllCaps">false</item>
     </style>
 
 
     <style name="CurrencyConverterSecondaryButtonStyle">
-        <item name="android:textColor">@color/currency_converter_light_900</item>
-        <item name="backgroundTint">@color/currency_converter_light_A100</item>
+        <item name="android:textColor">@color/currency_converter_secondary_button_text_color</item>
+        <item name="background">@drawable/currency_converter_secondary_button_background</item>
         <item name="textAllCaps">false</item>
     </style>
 

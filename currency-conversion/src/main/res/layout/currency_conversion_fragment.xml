@@ -66,6 +66,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/currency_conversion_add_currency_button"
             style="@style/CurrencyConverterSecondaryButtonStyle"
+            android:enabled="false"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/currency_converter_button_height"
             android:layout_gravity="center_vertical"
