@@ -5,7 +5,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -49,13 +48,9 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
             binding.currencyConversionConvertButton.setOnClickListener {
                 val enteredAmount = binding.currencyConversionAmountEditText.text
 
-                Log.d("HENRIQUE", "enteredAmount -> $enteredAmount")
-
                 if (!enteredAmount.isNullOrEmpty()) {
                     val amount =
                         Util.removeDollarSignAndCommas(enteredAmount.toString()).toDouble()
-
-                    Log.d("HENRIQUE", "amount -> $amount")
 
                     currencySelectionAmountViewModel.updateAmount(amount)
                 }
@@ -109,7 +104,7 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
                 val cleanString = Util.removeAllNonNumericCharacters(originalString)
 
                 if (cleanString.length >= MAX_LENGTH_CLEAN_STRING) {
-                    editTextAmount.error = "Maximum amount reached"
+                    editTextAmount.error = getString(R.string.currency_conversion_amount_edit_text_error)
                     handler.postDelayed({
                         editTextAmount.error = null
                     }, ERROR_TIMEOUT)

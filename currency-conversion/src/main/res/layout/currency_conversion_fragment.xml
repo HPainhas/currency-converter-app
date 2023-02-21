@@ -24,7 +24,7 @@
         android:layout_marginTop="@dimen/currency_conversion_amount_edit_text_margin_top"
         android:autofillHints=""
         android:gravity="center"
-        android:hint="@string/currency_conversion_amount_edit_text"
+        android:hint="@string/currency_conversion_amount_edit_text_hint"
         android:inputType="numberDecimal"
         android:digits="0123456789."
         android:paddingHorizontal="@dimen/currency_conversion_amount_edit_text_padding_horizontal"
