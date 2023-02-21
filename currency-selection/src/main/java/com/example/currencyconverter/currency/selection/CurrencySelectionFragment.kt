@@ -8,7 +8,9 @@ import android.widget.AdapterView
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.selection.databinding.CurrencySelectionFragmentBinding
+import com.example.currencyconverter.util.Util
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.text.SimpleDateFormat
@@ -37,6 +39,10 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null) {
+            val latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
+
+            Util.logDebug("latestExchangeRates -> $latestExchangeRates")
+
             currencySelectionItemViewModelList = mapToViewModels(parseJson())
             fromCurrencySelectionSpinner =  binding.currencySelectionSpinnerFrom
             toCurrencySelectionSpinner =  binding.currencySelectionSpinnerTo
@@ -187,7 +193,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
 
     private fun parseJson(): List<CurrencySelectionItem> {
         val listType = object : TypeToken<List<CurrencySelectionItem>>() {}.type
-        val bufferReader = resources.assets.open(FILENAME).bufferedReader()
+        val bufferReader = resources.assets.open(CURRENCY_DUMMY_FILE).bufferedReader()
         val jsonString = bufferReader.use { it.readText() }
 
         return Gson().fromJson(jsonString, listType)
@@ -208,7 +214,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     companion object {
-        private const val FILENAME = "currencies_dummies.json"
+        private const val CURRENCY_DUMMY_FILE = "currencies_dummies.json"
         private const val TIMEZONE = "America/Phoenix"
         private const val DATE_FORMAT = "dd MMM yyyy HH:mm"
     }

@@ -1,6 +1,7 @@
 package com.example.currencyconverter.util
 
 import android.content.Context
+import android.util.Log
 import android.widget.ImageView
 import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.bumptech.glide.Glide
@@ -9,6 +10,10 @@ import com.bumptech.glide.request.RequestOptions
 class Util {
 
     companion object {
+
+        fun logDebug(message: String) {
+            Log.d("HENRIQUE", message)
+        }
 
         fun loadImage(
             imageView: ImageView,
