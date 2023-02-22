@@ -37,7 +37,7 @@
             style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:dropDownSelector="@drawable/ic_dropdown"
             android:spinnerMode="dropdown"
             tools:listitem="@layout/currency_selection_item" />
@@ -46,7 +46,7 @@
             android:id="@+id/currency_selection_amount"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.6"
+            android:layout_weight="0.5"
             android:gravity="center_vertical|end"
             android:paddingEnd="@dimen/currency_selection_amount_padding_end"
             android:text="@string/currency_selection_initial_amount"
@@ -71,7 +71,7 @@
             style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.5"
             android:dropDownSelector="@drawable/ic_dropdown"
             android:spinnerMode="dropdown"
             tools:listitem="@layout/currency_selection_item" />
@@ -80,7 +80,7 @@
             android:id="@+id/currency_selection_converted_amount_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.6"
+            android:layout_weight="0.5"
             android:gravity="center_vertical|end"
             android:orientation="vertical"
             android:paddingEnd="@dimen/currency_selection_converted_amount_layout_padding_end">

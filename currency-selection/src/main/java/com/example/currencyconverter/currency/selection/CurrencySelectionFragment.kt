@@ -11,8 +11,8 @@ import androidx.fragment.app.activityViewModels
 import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.selection.databinding.CurrencySelectionFragmentBinding
 import com.example.currencyconverter.util.Util
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
+import com.example.currencyconverter.util.Currency
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,7 +21,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     private lateinit var binding: CurrencySelectionFragmentBinding
     private lateinit var fromCurrencySelectionSpinner: Spinner
     private lateinit var toCurrencySelectionSpinner: Spinner
-    private lateinit var currencySelectionItemViewModelList: List<CurrencySelectionItem>
+    private lateinit var latestExchangeRates: JSONObject
+    private lateinit var currencyList: List<Currency>
 
     private val currencySelectionItemViewModel: CurrencySelectionItemViewModel by activityViewModels()
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
@@ -39,11 +40,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null) {
-            val latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
-
-            Util.logDebug("latestExchangeRates -> $latestExchangeRates")
-
-            currencySelectionItemViewModelList = mapToViewModels(parseJson())
             fromCurrencySelectionSpinner =  binding.currencySelectionSpinnerFrom
             toCurrencySelectionSpinner =  binding.currencySelectionSpinnerTo
 
@@ -55,6 +51,11 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                 updateUI()
             }
 
+            latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
+            Util.logDebug("latestExchangeRates -> $latestExchangeRates")
+
+            currencyList = buildCurrencyList()
+
             setUpLastUpdatedTime()
             setUpCurrencySelectionSpinnerAdapters()
             setUpCurrencySelectionSpinnerListeners()
@@ -63,27 +64,34 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     private fun setUpLastUpdatedTime() {
-        val timeZone = TimeZone.getTimeZone(TIMEZONE)
-        val calendar = Calendar.getInstance(timeZone)
-        val formatter = SimpleDateFormat(DATE_FORMAT, Locale.US)
-        formatter.timeZone = timeZone
-        val formattedDateTime = formatter.format(calendar.time)
+        try {
+            val lastUpdatedTimestamp = latestExchangeRates.getLong("timestamp")
+            val timeZone = TimeZone.getTimeZone(TIMEZONE)
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = lastUpdatedTimestamp * 1000 // convert to milliseconds
+            calendar.timeZone = timeZone
 
-        binding.currencySelectionLastUpdated.text = getString(
-            R.string.currency_selection_last_updated,
-            formattedDateTime
-        )
+            val formatter = SimpleDateFormat(DATE_FORMAT, Locale.US)
+            val formattedDateTime = formatter.format(calendar.time)
+
+            binding.currencySelectionLastUpdated.text = getString(
+                R.string.currency_selection_last_updated,
+                formattedDateTime
+            )
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {
         binding.currencySelectionSpinnerFrom.adapter =
             activity?.let {
-                CurrencySelectionSpinnerAdapter(it, currencySelectionItemViewModelList)
+                CurrencySelectionSpinnerAdapter(it, currencyList)
             }
 
         binding.currencySelectionSpinnerTo.adapter =
             activity?.let {
-                CurrencySelectionSpinnerAdapter(it,  currencySelectionItemViewModelList)
+                CurrencySelectionSpinnerAdapter(it,  currencyList)
             }
     }
 
@@ -96,7 +104,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                     position: Int,
                     id: Long
                 ) {
-                    val selectedFromCurrency = parent.getItemAtPosition(position) as CurrencySelectionItem
+                    val selectedFromCurrency = parent.getItemAtPosition(position) as Currency
                     updateCurrencySelectionItemViewModel(selectedFromCurrency, isFromData = true)
                 }
 
@@ -111,7 +119,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                     position: Int,
                     id: Long
                 ) {
-                    val selectedToCurrency = parent.getItemAtPosition(position) as CurrencySelectionItem
+                    val selectedToCurrency = parent.getItemAtPosition(position) as Currency
                     updateCurrencySelectionItemViewModel(selectedToCurrency, isFromData = false)
                 }
 
@@ -120,14 +128,14 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     private fun initializeCurrencySelectionSpinners() {
-        if (currencySelectionItemViewModelList.size > 1) {
+        if (currencyList.size > 1) {
             fromCurrencySelectionSpinner.setSelection(0)
             toCurrencySelectionSpinner.setSelection(1)
 
             val fromCurrency =
-                fromCurrencySelectionSpinner.getItemAtPosition(0) as CurrencySelectionItem
+                fromCurrencySelectionSpinner.getItemAtPosition(0) as Currency
             val toCurrency =
-                toCurrencySelectionSpinner.getItemAtPosition(1) as CurrencySelectionItem
+                toCurrencySelectionSpinner.getItemAtPosition(1) as Currency
 
             updateCurrencySelectionItemViewModel(fromCurrency, isFromData = true)
             updateCurrencySelectionItemViewModel(toCurrency, isFromData = false)
@@ -135,26 +143,24 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     private fun updateCurrencySelectionItemViewModel(
-        item: CurrencySelectionItem,
+        item: Currency,
         isFromData: Boolean
     ) {
         if (isFromData) {
             currencySelectionItemViewModel.updateFromData(
                 item.symbol,
-                item.country,
+                item.countryName,
+                item.countryCode,
                 item.rate,
-                item.flagUrl,
-                item.imageName,
-                isLastUpdatedCurrencySelectionItemFrom = true
+                item.imageName
             )
         } else {
             currencySelectionItemViewModel.updateToData(
                 item.symbol,
-                item.country,
+                item.countryName,
+                item.countryCode,
                 item.rate,
-                item.flagUrl,
-                item.imageName,
-                isLastUpdatedCurrencySelectionItemFrom = false
+                item.imageName
             )
         }
     }
@@ -169,6 +175,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         val toSymbol = currencySelectionItemViewModel.toSymbol.value!!
 
         val exchangeRate = toRate / fromRate
+        val convertedAmount = amount * (toRate / fromRate)
 
         val formattedExchangeRate = getString(
             R.string.currency_selection_converted_amount_exchange,
@@ -183,39 +190,30 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         )
         binding.currencySelectionExchangeRate.text = formattedExchangeRate
 
-        val convertedAmount = amount * (toRate / fromRate)
-
         binding.currencySelectionConvertedAmount.text = getString(
             R.string.currency_selection_converted_amount,
             convertedAmount
         )
     }
 
-    private fun parseJson(): List<CurrencySelectionItem> {
-        val listType = object : TypeToken<List<CurrencySelectionItem>>() {}.type
-        val bufferReader = resources.assets.open(CURRENCY_DUMMY_FILE).bufferedReader()
-        val jsonString = bufferReader.use { it.readText() }
+    private fun buildCurrencyList(): List<Currency> {
+        val currencyList: MutableList<Currency> = mutableListOf()
+        val currencyRates = latestExchangeRates.getJSONObject("rates")
 
-        return Gson().fromJson(jsonString, listType)
-    }
+        for (symbol in currencyRates.keys()) {
+            val currency = Util.mapCurrency(symbol)
 
-    private fun mapToViewModels(
-        currencySelectionItems: List<CurrencySelectionItem>
-    ): List<CurrencySelectionItem> {
-        return currencySelectionItems.map { item ->
-            CurrencySelectionItem(
-                item.symbol,
-                item.country,
-                item.rate,
-                item.flagUrl,
-                item.imageName
-            )
+            if (currency != null) {
+                currency.rate = currencyRates.getDouble(symbol)
+                currencyList.add(currency)
+            }
         }
+
+        return currencyList
     }
 
     companion object {
-        private const val CURRENCY_DUMMY_FILE = "currencies_dummies.json"
         private const val TIMEZONE = "America/Phoenix"
-        private const val DATE_FORMAT = "dd MMM yyyy HH:mm"
+        private const val DATE_FORMAT = "dd MMM yyyy HH:mm:SS"
     }
 }

@@ -17,6 +17,8 @@ class OkHttpClient {
             val client = OkHttpClientSingleton.client
             val request = Request.Builder()
                 .url(url)
+                .get()
+                .addHeader("accept", "application/json")
                 .build()
 
             return withContext(Dispatchers.IO) {
@@ -37,6 +39,8 @@ class OkHttpClient {
         ) {
             val request = Request.Builder()
                 .url(url)
+                .get()
+                .addHeader("accept", "application/json")
                 .build()
 
             OkHttpClientSingleton.client.newCall(request).enqueue(object : Callback {

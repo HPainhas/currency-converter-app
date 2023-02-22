@@ -7,11 +7,12 @@ import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.currencyconverter.util.Currency
 import com.example.currencyconverter.util.Util
 
 class CurrencySelectionSpinnerAdapter(
-    context: Context,
-    private var currencyList: List<CurrencySelectionItem>,
+    private val context: Context,
+    private var currencyList: List<Currency>,
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -38,15 +39,19 @@ class CurrencySelectionSpinnerAdapter(
 
         val selectedCurrency = currencyList[position]
 
-        selectedCurrency.flagUrl.let {
+        selectedCurrency.imageName.let {
             Util.loadImage(
                 viewHolder.flag,
-                it,
+                "$FLAGPEDIA_BASE_URL/$it",
                 Util.getProgressDrawable(viewHolder.flag.context)
             )
         }
 
-        viewHolder.symbol.text = selectedCurrency.symbol
+        viewHolder.symbol.text = context.getString(
+            R.string.currency_selection_currency_name_symbol,
+            selectedCurrency.countryName,
+            selectedCurrency.symbol
+        )
 
         // TODO - hide the dropdown icon on the spinner popup items
 
@@ -61,5 +66,9 @@ class CurrencySelectionSpinnerAdapter(
             flag = itemView.findViewById(R.id.currency_selection_item_flag) as ImageView
             symbol = itemView.findViewById(R.id.currency_selection_item_symbol) as TextView
         }
+    }
+
+    companion object {
+        private const val FLAGPEDIA_BASE_URL = "https://flagpedia.net/data/flags/normal"
     }
 }

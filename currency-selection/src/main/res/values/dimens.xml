@@ -25,7 +25,7 @@
 
     <dimen name="currency_selection_item_dropdown_margin_start">5dp</dimen>
 
-    <dimen name="currency_selection_item_amount_text_size">16sp</dimen>
+    <dimen name="currency_selection_item_amount_text_size">14sp</dimen>
     <dimen name="currency_selection_item_exchange_rate_text_size">12sp</dimen>
 
 </resources>
