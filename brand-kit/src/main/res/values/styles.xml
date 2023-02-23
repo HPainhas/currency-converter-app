@@ -16,7 +16,6 @@
     <style name="CurrencyConverterPrimaryTextStyle">
         <item name="android:textSize">@dimen/currency_converter_primary_text_size</item>
         <item name="android:textColor">@color/black</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="CurrencyConverterSecondaryTextStyle">
