@@ -8,6 +8,7 @@ import android.widget.BaseAdapter
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.currencyconverter.util.Currency
+import com.example.currencyconverter.util.Util
 
 class CurrencySelectionSpinnerAdapter(
     private val context: Context,
@@ -39,7 +40,7 @@ class CurrencySelectionSpinnerAdapter(
         val selectedCurrency = currencyList[position]
 
         viewHolder.countryFlag.setImageResource(
-            getCountryFlagImage(selectedCurrency.countryCode)
+            Util.getCountryFlagImage(selectedCurrency.symbol)
         )
 
         viewHolder.countryName.text = context.getString(
@@ -63,7 +64,7 @@ class CurrencySelectionSpinnerAdapter(
         val selectedCurrency = currencyList[position]
 
         countryFlag.setImageResource(
-            getCountryFlagImage(selectedCurrency.countryCode)
+            Util.getCountryFlagImage(selectedCurrency.symbol)
         )
 
         countryName.text = context.getString(
@@ -89,27 +90,4 @@ class CurrencySelectionSpinnerAdapter(
             currencySymbol = itemView.findViewById(R.id.currency_selection_item_country_currency_symbol) as TextView
         }
     }
-
-    private fun getCountryFlagImage(countryCode: String): Int =
-        when (countryCode) {
-            "AE" -> com.example.currencyconverter.brandkit.R.drawable.flag_ae
-            "AU" -> com.example.currencyconverter.brandkit.R.drawable.flag_au
-            "BR" -> com.example.currencyconverter.brandkit.R.drawable.flag_br
-            "CA" -> com.example.currencyconverter.brandkit.R.drawable.flag_ca
-            "CH" -> com.example.currencyconverter.brandkit.R.drawable.flag_ch
-            "CN" -> com.example.currencyconverter.brandkit.R.drawable.flag_cn
-            "EU" -> com.example.currencyconverter.brandkit.R.drawable.flag_eu
-            "GB" -> com.example.currencyconverter.brandkit.R.drawable.flag_gb
-            "HK" -> com.example.currencyconverter.brandkit.R.drawable.flag_hk
-            "IN" -> com.example.currencyconverter.brandkit.R.drawable.flag_in
-            "JP" -> com.example.currencyconverter.brandkit.R.drawable.flag_jp
-            "MX" -> com.example.currencyconverter.brandkit.R.drawable.flag_mx
-            "NO" -> com.example.currencyconverter.brandkit.R.drawable.flag_no
-            "NZ" -> com.example.currencyconverter.brandkit.R.drawable.flag_nz
-            "RU" -> com.example.currencyconverter.brandkit.R.drawable.flag_ru
-            "SE" -> com.example.currencyconverter.brandkit.R.drawable.flag_se
-            "SG" -> com.example.currencyconverter.brandkit.R.drawable.flag_sg
-            "US" -> com.example.currencyconverter.brandkit.R.drawable.flag_us
-            else -> 0
-        }
 }
