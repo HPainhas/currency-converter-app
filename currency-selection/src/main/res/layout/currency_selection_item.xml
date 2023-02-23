@@ -2,7 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:minHeight="@dimen/currency_selection_item_min_height"
     android:paddingHorizontal="@dimen/currency_selection_item_padding_horizontal"
@@ -13,7 +13,6 @@
         android:layout_width="@dimen/currency_selection_item_currency_flag_container_width"
         android:layout_height="@dimen/currency_selection_item_currency_flag_container_height"
         android:elevation="0dp"
-        android:layout_marginStart="@dimen/currency_selection_item_flag_margin_start"
         app:cardCornerRadius="@dimen/currency_selection_item_currency_flag_container_card_corner_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -28,30 +27,44 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/brazil_flag" />
+            tools:src="@drawable/flag_eu" />
 
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/currency_selection_item_symbol"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/currency_selection_item_currency_symbol_margin_start"
-        android:textAppearance="@style/CurrencySelectionSpinnerItemSymbolTextStyle"
+    <LinearLayout
+        android:id="@+id/currency_selection_item_country_container"
+        android:layout_marginStart="@dimen/currency_selection_item_country_container_margin_start"
         app:layout_constraintBottom_toBottomOf="@id/currency_selection_item_flag_container"
         app:layout_constraintStart_toEndOf="@id/currency_selection_item_flag_container"
         app:layout_constraintTop_toTopOf="@id/currency_selection_item_flag_container"
-        tools:text="BRL" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/currency_selection_item_country_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/CurrencySelectionSpinnerItemCountryTextStyle"
+            tools:text="European Union" />
+
+        <TextView
+            android:id="@+id/currency_selection_item_country_currency_symbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/CurrencySelectionSpinnerItemCountryTextStyle"
+            tools:text="(EUR)" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/currency_selection_item_dropdown"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/currency_selection_item_dropdown_margin_start"
         android:src="@drawable/ic_dropdown"
-        app:layout_constraintBottom_toBottomOf="@id/currency_selection_item_symbol"
-        app:layout_constraintStart_toEndOf="@id/currency_selection_item_symbol"
-        app:layout_constraintTop_toTopOf="@id/currency_selection_item_symbol"
+        app:layout_constraintBottom_toBottomOf="@id/currency_selection_item_country_container"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/currency_selection_item_country_container"
         app:tint="@color/gray"
         tools:ignore="ContentDescription" />
 

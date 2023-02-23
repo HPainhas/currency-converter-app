@@ -52,7 +52,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             }
 
             latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
-            Util.logDebug("latestExchangeRates -> $latestExchangeRates")
 
             currencyList = buildCurrencyList()
 

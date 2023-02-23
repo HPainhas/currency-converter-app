@@ -19,7 +19,7 @@
         app:drawableTint="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Last updated: 16 Feb 2023 17:07"/>
+        tools:text="Last updated: 16 Feb 2023 17:07" />
 
     <LinearLayout
         android:id="@+id/currency_selection_spinner_from_container"
@@ -37,8 +37,9 @@
             style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:dropDownSelector="@drawable/ic_dropdown"
+            android:layout_weight="0.65"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="0dp"
             android:spinnerMode="dropdown"
             tools:listitem="@layout/currency_selection_item" />
 
@@ -46,12 +47,12 @@
             android:id="@+id/currency_selection_amount"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="0.35"
             android:gravity="center_vertical|end"
             android:paddingEnd="@dimen/currency_selection_amount_padding_end"
             android:text="@string/currency_selection_initial_amount"
             android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
-            tools:text="$ 1,000.00" />
+            tools:text="$ 1,000,000,000.00" />
 
     </LinearLayout>
 
@@ -71,8 +72,9 @@
             style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:dropDownSelector="@drawable/ic_dropdown"
+            android:layout_weight="0.65"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="0dp"
             android:spinnerMode="dropdown"
             tools:listitem="@layout/currency_selection_item" />
 
@@ -80,7 +82,7 @@
             android:id="@+id/currency_selection_converted_amount_layout"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="0.5"
+            android:layout_weight="0.35"
             android:gravity="center_vertical|end"
             android:orientation="vertical"
             android:paddingEnd="@dimen/currency_selection_converted_amount_layout_padding_end">
@@ -92,7 +94,7 @@
                 android:layout_gravity="end"
                 android:text="@string/currency_selection_initial_amount"
                 android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
-                tools:text="$ 192.57" />
+                tools:text="$ 1,000,000,000.00" />
 
             <TextView
                 android:id="@+id/currency_selection_exchange_rate"
