@@ -7,7 +7,6 @@
         <item name="textAllCaps">false</item>
     </style>
 
-
     <style name="CurrencyConverterSecondaryButtonStyle">
         <item name="android:textColor">@color/currency_converter_secondary_button_text_color</item>
         <item name="background">@drawable/currency_converter_secondary_button_background</item>

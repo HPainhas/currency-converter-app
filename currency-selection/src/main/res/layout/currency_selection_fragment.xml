@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:drawablePadding="@dimen/currency_selection_last_updated_drawable_padding"
         android:textAppearance="@style/CurrencyConverterSecondaryTextStyle"
+        android:textSize="@dimen/currency_selection_last_updated_text_size"
         app:drawableStartCompat="@drawable/ic_sync_outline"
         app:drawableTint="@color/gray"
         app:layout_constraintStart_toStartOf="parent"
