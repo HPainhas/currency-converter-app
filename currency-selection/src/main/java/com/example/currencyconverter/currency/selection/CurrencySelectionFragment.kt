@@ -208,6 +208,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             }
         }
 
+        currencyList.sortBy { it.countryName }
+
         return currencyList
     }
 
