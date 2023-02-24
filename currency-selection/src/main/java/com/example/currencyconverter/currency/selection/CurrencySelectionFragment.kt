@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.currencyconverter.api.OpenExchangeRatesApi
@@ -17,10 +16,11 @@ import org.json.JSONObject
 class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment) {
 
     private lateinit var binding: CurrencySelectionFragmentBinding
-    private lateinit var fromCurrencySelectionSpinner: Spinner
-    private lateinit var toCurrencySelectionSpinner: Spinner
-    private lateinit var latestExchangeRates: JSONObject
+
     private lateinit var currencyList: List<Currency>
+    private lateinit var latestExchangeRates: JSONObject
+    private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
+    private lateinit var toCurrencySelectionSpinner: CurrencySelectionSpinner
 
     private val currencySelectionItemViewModel: CurrencySelectionItemViewModel by activityViewModels()
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
@@ -179,7 +179,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             amount
         )
         binding.currencySelectionExchangeRate.text = formattedExchangeRate
-
         binding.currencySelectionConvertedAmount.text = getString(
             R.string.currency_selection_converted_amount,
             convertedAmount

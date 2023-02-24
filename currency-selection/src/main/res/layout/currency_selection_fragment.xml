@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/currency_selection_last_updated">
 
-        <Spinner
+        <com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
             android:id="@+id/currency_selection_spinner_from"
             style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
             android:layout_width="0dp"
@@ -42,7 +42,7 @@
             android:dropDownHorizontalOffset="0dp"
             android:dropDownVerticalOffset="0dp"
             android:spinnerMode="dropdown"
-            tools:listitem="@layout/currency_selection_item" />
+            tools:listitem="@layout/currency_selection_spinner_item" />
 
         <TextView
             android:id="@+id/currency_selection_amount"
@@ -68,7 +68,7 @@
         app:layout_constraintStart_toStartOf="@id/currency_selection_spinner_from_container"
         app:layout_constraintTop_toBottomOf="@id/currency_selection_spinner_from_container">
 
-        <Spinner
+        <com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
             android:id="@+id/currency_selection_spinner_to"
             style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
             android:layout_width="0dp"
@@ -77,7 +77,7 @@
             android:dropDownHorizontalOffset="0dp"
             android:dropDownVerticalOffset="0dp"
             android:spinnerMode="dropdown"
-            tools:listitem="@layout/currency_selection_item" />
+            tools:listitem="@layout/currency_selection_spinner_item" />
 
         <LinearLayout
             android:id="@+id/currency_selection_converted_amount_layout"

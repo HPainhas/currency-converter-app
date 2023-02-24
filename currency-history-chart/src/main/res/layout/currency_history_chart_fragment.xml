@@ -17,7 +17,7 @@
         android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/currency_selection_item" />
+        tools:listitem="@layout/currency_selection_spinner_item" />
 
     <ImageView
         android:id="@+id/currency_history_chart_exchange_icon"
@@ -42,6 +42,6 @@
         app:layout_constraintBottom_toBottomOf="@id/currency_history_chart_exchange_icon"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@id/currency_history_chart_exchange_icon"
-        tools:listitem="@layout/currency_selection_item" />
+        tools:listitem="@layout/currency_selection_spinner_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

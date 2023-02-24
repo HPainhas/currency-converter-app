@@ -1,6 +1,8 @@
 package com.example.currencyconverter.currency.selection
 
 import android.content.Context
+import android.graphics.Color
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,53 +15,65 @@ import com.example.currencyconverter.util.Util
 class CurrencySelectionSpinnerAdapter(
     private val context: Context,
     private val currencyList: List<Currency>,
+    private var countryNameTextColor: Int = Color.GRAY,
+    private var currencySymbolTextColor: Int = Color.GRAY,
+    private var countryNameTextSize: Float = 14f,
+    private var currencySymbolTextSize: Float = 14f,
+    private var isDropdownIconVisible: Boolean = true,
+    private var imageWidth: Int = 65,
+    private var imageHeight: Int = 40
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-    override fun getCount(): Int = currencyList.size
-
-    override fun getItem(position: Int): Any = currencyList[position]
-
-    override fun getItemId(position: Int): Long = position.toLong()
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
-        val viewHolder: CurrencyViewHolder
+        val viewHolder: ViewHolder
 
         if (convertView == null) {
-            view = inflater.inflate(R.layout.currency_selection_item, parent, false)
-            viewHolder = CurrencyViewHolder(view)
+            view = inflater.inflate(R.layout.currency_selection_spinner_item, parent, false)
+            viewHolder = ViewHolder(view)
             view?.tag = viewHolder
         } else {
             view = convertView
-            viewHolder = view.tag as CurrencyViewHolder
+            viewHolder = view.tag as ViewHolder
         }
 
-        val selectedCurrency = currencyList[position]
+        val selectedCurrency = getItem(position)
+        val countryFlag = viewHolder.countryFlag
+        val countryName = viewHolder.countryName
+        val currencySymbol = viewHolder.currencySymbol
+        val dropdownIcon = viewHolder.dropdownIcon
 
-        viewHolder.countryFlag.setImageResource(
-            Util.getCountryFlagImage(selectedCurrency.symbol)
-        )
-
-        viewHolder.countryName.text = context.getString(
+        countryName.text = context.getString(
             R.string.currency_selection_currency_country_name,
             selectedCurrency.countryName
         )
-        viewHolder.currencySymbol.text = context.getString(
+        countryName.setTextColor(countryNameTextColor)
+        countryName.setTextSize(TypedValue.COMPLEX_UNIT_SP, countryNameTextSize)
+
+        currencySymbol.text = context.getString(
             R.string.currency_selection_currency_symbol,
             selectedCurrency.symbol
         )
+        currencySymbol.setTextColor(currencySymbolTextColor)
+        currencySymbol.setTextSize(TypedValue.COMPLEX_UNIT_SP, currencySymbolTextSize)
+
+        countryFlag.setImageResource(
+            Util.getCountryFlagImage(selectedCurrency.symbol)
+        )
+
+        dropdownIcon.visibility = if (isDropdownIconVisible) View.VISIBLE else View.GONE
 
         return view
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
-        val view = convertView ?: inflater.inflate(R.layout.currency_selection_dropdown_item, parent, false)
-        val countryFlag = view.findViewById<ImageView>(R.id.currency_selection_dropdown_item_flag)
-        val countryName = view.findViewById<TextView>(R.id.currency_selection_dropdown_item_country_name)
-        val currencySymbol = view.findViewById<TextView>(R.id.currency_selection_dropdown_item_country_currency_symbol)
+        val view = convertView ?: inflater.inflate(R.layout.currency_selection_spinner_dropdown_item, parent, false)
+        val countryFlag = view.findViewById<ImageView>(R.id.currency_selection_spinner_dropdown_item_flag)
+        val countryName = view.findViewById<TextView>(R.id.currency_selection_spinner_dropdown_item_country_name)
+        val currencySymbol = view.findViewById<TextView>(R.id.currency_selection_spinner_dropdown_item_country_currency_symbol)
 
         val selectedCurrency = currencyList[position]
 
@@ -79,15 +93,86 @@ class CurrencySelectionSpinnerAdapter(
         return view
     }
 
-    class CurrencyViewHolder(itemView: View) {
+    override fun getCount(): Int = currencyList.size
+
+    override fun getItem(position: Int): Currency = currencyList[position]
+
+    override fun getItemId(position: Int): Long = position.toLong()
+
+    fun getCountryNameTextColor(): Int {
+        return countryNameTextColor
+    }
+
+    fun setCountryNameTextColor(color: Int) {
+        this.countryNameTextColor = color
+        notifyDataSetChanged()
+    }
+
+    fun getCurrencySymbolTextColor(): Int {
+        return currencySymbolTextColor
+    }
+
+    fun setCurrencySymbolTextColor(color: Int) {
+        this.currencySymbolTextColor = color
+        notifyDataSetChanged()
+    }
+
+    fun getCountryNameTextSize(): Float {
+        return countryNameTextSize
+    }
+
+    fun setCountryNameTextSize(size: Float) {
+        this.countryNameTextSize = size
+        notifyDataSetChanged()
+    }
+
+    fun getCurrencySymbolTextSize(): Float {
+        return currencySymbolTextSize
+    }
+
+    fun setCurrencySymbolTextSize(size: Float) {
+        this.currencySymbolTextSize = size
+        notifyDataSetChanged()
+    }
+
+    fun getIsDropdownIconVisible(): Boolean {
+        return isDropdownIconVisible
+    }
+
+    fun setIsDropdownIconVisible(visible: Boolean) {
+        this.isDropdownIconVisible = visible
+        notifyDataSetChanged()
+    }
+
+    fun getImageWidth(): Int {
+        return imageWidth
+    }
+
+    fun setImageWidth(width: Int) {
+        this.imageWidth = width
+        notifyDataSetChanged()
+    }
+
+    fun getImageHeight(): Int {
+        return imageHeight
+    }
+
+    fun setImageHeight(height: Int) {
+        this.imageHeight = height
+        notifyDataSetChanged()
+    }
+
+    class ViewHolder(itemView: View) {
         val countryFlag: ImageView
         val countryName: TextView
         val currencySymbol: TextView
+        val dropdownIcon: ImageView
 
         init {
-            countryFlag = itemView.findViewById(R.id.currency_selection_item_flag) as ImageView
-            countryName = itemView.findViewById(R.id.currency_selection_item_country_name) as TextView
-            currencySymbol = itemView.findViewById(R.id.currency_selection_item_country_currency_symbol) as TextView
+            this.countryFlag = itemView.findViewById(R.id.currency_selection_spinner_item_flag) as ImageView
+            this.countryName = itemView.findViewById(R.id.currency_selection_spinner_item_country_name) as TextView
+            this.currencySymbol = itemView.findViewById(R.id.currency_selection_spinner_item_country_currency_symbol) as TextView
+            this.dropdownIcon = itemView.findViewById(R.id.currency_selection_spinner_item_dropdown_icon) as ImageView
         }
     }
 }

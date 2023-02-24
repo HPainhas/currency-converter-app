@@ -4,22 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="@dimen/currency_selection_item_min_height"
-    android:paddingHorizontal="@dimen/currency_selection_item_padding_horizontal"
-    android:paddingVertical="@dimen/currency_selection_item_padding_vertical">
+    android:minHeight="@dimen/currency_selection_spinner_item_min_height"
+    android:paddingHorizontal="@dimen/currency_selection_spinner_item_padding_horizontal"
+    android:paddingVertical="@dimen/currency_selection_spinner_item_padding_vertical">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/currency_selection_item_flag_container"
-        android:layout_width="@dimen/currency_selection_item_currency_flag_container_width"
-        android:layout_height="@dimen/currency_selection_item_currency_flag_container_height"
+        android:id="@+id/currency_selection_spinner_item_flag_container"
+        android:layout_width="@dimen/currency_selection_spinner_item_currency_flag_container_width"
+        android:layout_height="@dimen/currency_selection_spinner_item_currency_flag_container_height"
         android:elevation="0dp"
-        app:cardCornerRadius="@dimen/currency_selection_item_currency_flag_container_card_corner_radius"
+        app:cardCornerRadius="@dimen/currency_selection_spinner_item_currency_flag_container_card_corner_radius"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/currency_selection_item_flag"
+            android:id="@+id/currency_selection_spinner_item_flag"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -32,24 +32,24 @@
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
-        android:id="@+id/currency_selection_item_country_container"
-        android:layout_marginStart="@dimen/currency_selection_item_country_container_margin_start"
-        app:layout_constraintBottom_toBottomOf="@id/currency_selection_item_flag_container"
-        app:layout_constraintStart_toEndOf="@id/currency_selection_item_flag_container"
-        app:layout_constraintTop_toTopOf="@id/currency_selection_item_flag_container"
+        android:id="@+id/currency_selection_spinner_item_country_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_marginStart="@dimen/currency_selection_spinner_item_country_container_margin_start"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/currency_selection_spinner_item_flag_container"
+        app:layout_constraintStart_toEndOf="@id/currency_selection_spinner_item_flag_container"
+        app:layout_constraintTop_toTopOf="@id/currency_selection_spinner_item_flag_container">
 
         <TextView
-            android:id="@+id/currency_selection_item_country_name"
+            android:id="@+id/currency_selection_spinner_item_country_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/CurrencySelectionSpinnerItemCountryTextStyle"
             tools:text="European Union" />
 
         <TextView
-            android:id="@+id/currency_selection_item_country_currency_symbol"
+            android:id="@+id/currency_selection_spinner_item_country_currency_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/CurrencySelectionSpinnerItemCountryTextStyle"
@@ -58,13 +58,16 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/currency_selection_item_dropdown"
+        android:id="@+id/currency_selection_spinner_item_dropdown_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
         android:src="@drawable/ic_dropdown"
-        app:layout_constraintBottom_toBottomOf="@id/currency_selection_item_country_container"
+        app:layout_constraintBottom_toBottomOf="@id/currency_selection_spinner_item_country_container"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/currency_selection_item_country_container"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@id/currency_selection_spinner_item_country_container"
+        app:layout_constraintTop_toTopOf="@id/currency_selection_spinner_item_country_container"
         app:tint="@color/gray"
         tools:ignore="ContentDescription" />
 
