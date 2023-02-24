@@ -13,8 +13,6 @@ import com.example.currencyconverter.currency.selection.databinding.CurrencySele
 import com.example.currencyconverter.util.Util
 import com.example.currencyconverter.util.Currency
 import org.json.JSONObject
-import java.text.SimpleDateFormat
-import java.util.*
 
 class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment) {
 
@@ -63,23 +61,16 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     private fun setUpLastUpdatedTime() {
-        try {
-            val lastUpdatedTimestamp = latestExchangeRates.getLong("timestamp")
-            val timeZone = TimeZone.getTimeZone(TIMEZONE)
-            val calendar = Calendar.getInstance()
-            calendar.timeInMillis = lastUpdatedTimestamp * 1000 // convert to milliseconds
-            calendar.timeZone = timeZone
+        val formattedLastUpdatedTimestamp = Util.getDateFromTimestamp(
+            pattern = DATE_FORMAT,
+            timestamp = latestExchangeRates.getLong("timestamp"),
+            timezone = TIMEZONE
+        )
 
-            val formatter = SimpleDateFormat(DATE_FORMAT, Locale.US)
-            val formattedDateTime = formatter.format(calendar.time)
-
-            binding.currencySelectionLastUpdated.text = getString(
-                R.string.currency_selection_last_updated,
-                formattedDateTime
-            )
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
+        binding.currencySelectionLastUpdated.text = getString(
+            R.string.currency_selection_last_updated,
+            formattedLastUpdatedTimestamp
+        )
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {

@@ -11,22 +11,27 @@ class OpenExchangeRatesApi {
     companion object {
 
         private const val OPEN_EXCHANGE_RATES_CONFIG_FILE = "open-exchange-rates-config.json"
-        private const val BASE_URL = "https://openexchangerates.org/api/latest.json"
+        private const val OPEN_EXCHANGE_RATES_BASE_URL = "https://openexchangerates.org/api"
 
         fun getLatestCurrencyRates(context: Context): JSONObject {
             return try {
-                val inputStream = context.assets.open(OPEN_EXCHANGE_RATES_CONFIG_FILE)
-                val jsonString = inputStream.bufferedReader().use { it.readText() }
-                val config = Gson().fromJson(jsonString, Config::class.java)
-                val appId = config?.appId
+                val appId = getOpenExchangeRatesApiAppId(context)
 
                 runBlocking {
-                    OkHttpClient.getRequestAsync("$BASE_URL?app_id=$appId")
+                    OkHttpClient.getRequestAsync("$OPEN_EXCHANGE_RATES_BASE_URL/latest.json?app_id=$appId")
                 } ?: JSONObject()
             } catch (e: Exception) {
                 e.printStackTrace()
                 throw FileNotFoundException()
             }
+        }
+
+        private fun getOpenExchangeRatesApiAppId(context: Context): String? {
+            val inputStream = context.assets.open(OPEN_EXCHANGE_RATES_CONFIG_FILE)
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            val config = Gson().fromJson(jsonString, Config::class.java)
+
+            return config?.appId
         }
     }
 }

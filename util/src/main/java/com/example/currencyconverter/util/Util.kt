@@ -1,8 +1,63 @@
 package com.example.currencyconverter.util
 
+import android.provider.Settings.System.DATE_FORMAT
+import java.text.SimpleDateFormat
+import java.util.*
+
 class Util {
 
     companion object {
+
+        fun getCurrentDate(pattern: String): String {
+            val formatter = SimpleDateFormat(pattern, Locale.US)
+            return formatter.format(Date())
+        }
+
+        fun getDateOneYearAgo(pattern: String, date: String): String {
+            val formatter = SimpleDateFormat(pattern, Locale.US)
+            val formattedDate = formatter.parse(date)
+            val calendar = Calendar.getInstance()
+
+            if (formattedDate != null) {
+                calendar.time = formattedDate
+            }
+
+            calendar.add(Calendar.YEAR, -1)
+            return formatter.format(calendar.time)
+        }
+
+        fun getDateFromTimestamp(pattern: String, timestamp: Long, timezone: String): String? {
+            return try {
+                val timeZone = TimeZone.getTimeZone(timezone)
+                val calendar = Calendar.getInstance()
+                calendar.timeInMillis = timestamp * 1000 // convert to milliseconds
+                calendar.timeZone = timeZone
+
+                val formatter = SimpleDateFormat(pattern, Locale.US)
+                formatter.format(calendar.time)
+            } catch (e: Exception) {
+                e.printStackTrace()
+                null
+            }
+        }
+
+        fun addParametersToUrl(baseUrl: String, parameters: List<String>): String {
+            val urlBuilder = StringBuilder(baseUrl)
+
+            if (parameters.isNotEmpty()) {
+                urlBuilder.append("?")
+
+                for ((index, parameter) in parameters.withIndex()) {
+                    urlBuilder.append(parameter)
+
+                    if (index < parameters.size - 1) {
+                        urlBuilder.append("&")
+                    }
+                }
+            }
+
+            return urlBuilder.toString()
+        }
 
         fun removeDollarSignAndCommas(originalString: String): String =
             originalString.replace(Regex("""[$,]"""), "")
