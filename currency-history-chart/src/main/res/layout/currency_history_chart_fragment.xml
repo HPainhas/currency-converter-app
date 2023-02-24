@@ -1,19 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:layout_height="match_parent">
 
-    <TextView
+    <Spinner
+        android:id="@+id/currency_history_chart_spinner_from"
+        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chart Fragment"
-        android:textColor="@color/currency_converter_light_900"
-        android:maxLines="2"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/currency_history_chart_spinner_from_margin_top"
+        android:background="@drawable/currency_selection_spinner_background"
+        android:dropDownHorizontalOffset="0dp"
+        android:dropDownVerticalOffset="0dp"
+        android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/currency_selection_item" />
+
+    <ImageView
+        android:id="@+id/currency_history_chart_exchange_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_swap_filled"
+        app:layout_constraintBottom_toBottomOf="@id/currency_history_chart_spinner_from"
+        app:layout_constraintEnd_toStartOf="@id/currency_history_chart_spinner_to"
+        app:layout_constraintStart_toEndOf="@id/currency_history_chart_spinner_from"
+        app:layout_constraintTop_toTopOf="@id/currency_history_chart_spinner_from"
+        app:tint="@color/gray" />
+
+    <Spinner
+        android:id="@+id/currency_history_chart_spinner_to"
+        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/currency_selection_spinner_background"
+        android:dropDownHorizontalOffset="0dp"
+        android:dropDownVerticalOffset="0dp"
+        android:spinnerMode="dropdown"
+        app:layout_constraintBottom_toBottomOf="@id/currency_history_chart_exchange_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent" />
+        app:layout_constraintTop_toTopOf="@id/currency_history_chart_exchange_icon"
+        tools:listitem="@layout/currency_selection_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

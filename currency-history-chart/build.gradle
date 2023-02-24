@@ -36,8 +36,9 @@ android {
 dependencies {
 
     // Modules
-    implementation project(':brand-kit')
     implementation project(':api')
+    implementation project(':brand-kit')
+    implementation project(':currency-selection')
 
     // Google
     implementation 'com.google.android.material:material:1.8.0'
