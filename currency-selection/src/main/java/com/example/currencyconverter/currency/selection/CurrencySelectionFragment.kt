@@ -74,15 +74,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {
-        binding.currencySelectionSpinnerFrom.adapter =
-            activity?.let {
-                CurrencySelectionSpinnerAdapter(it, currencyList)
-            }
-
-        binding.currencySelectionSpinnerTo.adapter =
-            activity?.let {
-                CurrencySelectionSpinnerAdapter(it,  currencyList)
-            }
+        fromCurrencySelectionSpinner.setAdapter(currencyList)
+        toCurrencySelectionSpinner.setAdapter(currencyList)
     }
 
     private fun setUpCurrencySelectionSpinnerListeners() {

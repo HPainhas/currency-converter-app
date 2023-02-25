@@ -1,7 +1,6 @@
 package com.example.currencyconverter.currency.selection
 
 import android.content.Context
-import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -15,13 +14,11 @@ import com.example.currencyconverter.util.Util
 class CurrencySelectionSpinnerAdapter(
     private val context: Context,
     private val currencyList: List<Currency>,
-    private var countryNameTextColor: Int = Color.GRAY,
-    private var currencySymbolTextColor: Int = Color.GRAY,
-    private var countryNameTextSize: Float = 14f,
-    private var currencySymbolTextSize: Float = 14f,
-    private var isDropdownIconVisible: Boolean = true,
-    private var imageWidth: Int = 65,
-    private var imageHeight: Int = 40
+    private var countryNameTextColor: Int,
+    private var currencySymbolTextColor: Int,
+    private var countryNameTextSize: Float,
+    private var currencySymbolTextSize: Float,
+    private var isDropdownIconVisible: Boolean
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
@@ -141,24 +138,6 @@ class CurrencySelectionSpinnerAdapter(
 
     fun setIsDropdownIconVisible(visible: Boolean) {
         this.isDropdownIconVisible = visible
-        notifyDataSetChanged()
-    }
-
-    fun getImageWidth(): Int {
-        return imageWidth
-    }
-
-    fun setImageWidth(width: Int) {
-        this.imageWidth = width
-        notifyDataSetChanged()
-    }
-
-    fun getImageHeight(): Int {
-        return imageHeight
-    }
-
-    fun setImageHeight(height: Int) {
-        this.imageHeight = height
         notifyDataSetChanged()
     }
 
