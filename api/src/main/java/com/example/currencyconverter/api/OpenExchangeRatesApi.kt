@@ -12,23 +12,26 @@ object OpenExchangeRatesApi {
     private const val OPEN_EXCHANGE_RATES_BASE_URL = "https://openexchangerates.org/api"
 
     fun getLatestCurrencyRates(context: Context): JSONObject {
-        return try {
-            val appId = getOpenExchangeRatesApiAppId(context)
+        val appId = getOpenExchangeRatesApiAppId(context)
 
-            runBlocking {
-                OkHttpClient.getRequestAsync("$OPEN_EXCHANGE_RATES_BASE_URL/latest.json?app_id=$appId")
-            } ?: JSONObject()
+        return runBlocking {
+            OkHttpClient.getRequestAsync(
+                context,
+                "$OPEN_EXCHANGE_RATES_BASE_URL/latest.json?app_id=$appId"
+            )
+        } ?: JSONObject()
+    }
+
+    private fun getOpenExchangeRatesApiAppId(context: Context): String? {
+        return try {
+            val inputStream = context.assets.open(OPEN_EXCHANGE_RATES_CONFIG_FILE)
+            val jsonString = inputStream.bufferedReader().use { it.readText() }
+            val config = Gson().fromJson(jsonString, Config::class.java)
+
+            config?.appId
         } catch (e: Exception) {
             e.printStackTrace()
             throw FileNotFoundException()
         }
-    }
-
-    private fun getOpenExchangeRatesApiAppId(context: Context): String? {
-        val inputStream = context.assets.open(OPEN_EXCHANGE_RATES_CONFIG_FILE)
-        val jsonString = inputStream.bufferedReader().use { it.readText() }
-        val config = Gson().fromJson(jsonString, Config::class.java)
-
-        return config?.appId
     }
 }

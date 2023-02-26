@@ -1,11 +1,13 @@
 package com.example.currencyconverter.api
 
+import android.content.Context
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.*
 import org.json.JSONObject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class OkHttpClient {
 
@@ -13,37 +15,47 @@ class OkHttpClient {
 
         private val gson = Gson()
 
-        suspend fun getRequestAsync(url: String): JSONObject? {
-            val client = OkHttpClientSingleton.client
+        suspend fun getRequestAsync(context: Context, url: String): JSONObject? {
+            val client = OkHttpClientSingleton.getInstance(context)
             val request = Request.Builder()
                 .url(url)
+                .cacheControl(
+                    CacheControl.Builder()
+                        .maxStale(2, TimeUnit.HOURS)
+                        .build()
+                )
                 .get()
                 .addHeader("accept", "application/json")
                 .build()
 
             return withContext(Dispatchers.IO) {
                 val response = client.newCall(request).execute()
-                val responseBody = response.body?.string()
 
-                if (responseBody != null) {
-                    JSONObject(responseBody)
-                } else {
-                    null
-                }
+                if (!response.isSuccessful) throw IOException("Unsuccessful response -> {$response}")
+
+                val responseBody = response.body?.string()
+                responseBody?.let { JSONObject(it) }
             }
         }
 
         fun getRequest(
+            context: Context,
             url: String,
             callback: (result: Any?, error: String?) -> Unit
         ) {
             val request = Request.Builder()
                 .url(url)
+                .cacheControl(
+                    CacheControl.Builder()
+                        .maxStale(2, TimeUnit.HOURS)
+                        .onlyIfCached()
+                        .build()
+                )
                 .get()
                 .addHeader("accept", "application/json")
                 .build()
 
-            OkHttpClientSingleton.client.newCall(request).enqueue(object : Callback {
+            OkHttpClientSingleton.getInstance(context).newCall(request).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string()
@@ -61,13 +73,17 @@ class OkHttpClient {
         }
 
         fun postRequest(
+            context: Context,
             url: String,
             body: RequestBody,
             callback: (result: Any?, error: String?) -> Unit
         ) {
-            val request = Request.Builder().url(url).post(body).build()
+            val request = Request.Builder()
+                .url(url)
+                .post(body)
+                .build()
 
-            OkHttpClientSingleton.client.newCall(request).enqueue(object : Callback {
+            OkHttpClientSingleton.getInstance(context).newCall(request).enqueue(object : Callback {
                 override fun onResponse(call: Call, response: Response) {
                     if (response.isSuccessful) {
                         val responseBody = response.body?.string()
