@@ -29,10 +29,15 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        historicalRates = ExchangeRatesApiLayerApi.getCurrencyHistory(
-            context = requireContext(),
-            fromCurrencySymbol = "USD",
-            toCurrencySymbol = "BRL"
-        )
+        if (savedInstanceState == null) {
+            fromCurrencySelectionSpinner =  binding.currencyHistoryChartSpinnerFrom
+            toCurrencySelectionSpinner =  binding.currencyHistoryChartSpinnerTo
+
+            historicalRates = ExchangeRatesApiLayerApi.getCurrencyHistory(
+                context = requireContext(),
+                fromCurrencySymbol = "USD",
+                toCurrencySymbol = "BRL"
+            )
+        }
     }
 }

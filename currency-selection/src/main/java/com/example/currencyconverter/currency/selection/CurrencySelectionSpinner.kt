@@ -21,6 +21,7 @@ class CurrencySelectionSpinner(
         currencySymbolTextColor: Int = Color.GRAY,
         countryNameTextSize: Float = defaultCountryTextSize,
         currencySymbolTextSize: Float = defaultCountryTextSize,
+        isCountryNameVisible: Boolean = true,
         isDropdownIconVisible: Boolean = true
     ) {
         this.adapter = CurrencySelectionSpinnerAdapter(
@@ -30,6 +31,7 @@ class CurrencySelectionSpinner(
             currencySymbolTextColor,
             countryNameTextSize,
             currencySymbolTextSize,
+            isCountryNameVisible,
             isDropdownIconVisible
         )
     }

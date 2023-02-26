@@ -18,6 +18,7 @@ class CurrencySelectionSpinnerAdapter(
     private var currencySymbolTextColor: Int,
     private var countryNameTextSize: Float,
     private var currencySymbolTextSize: Float,
+    private var isCountryNameVisible: Boolean,
     private var isDropdownIconVisible: Boolean
 ) : BaseAdapter() {
 
@@ -61,18 +62,19 @@ class CurrencySelectionSpinnerAdapter(
             Util.getCountryFlagImage(selectedCurrency.symbol)
         )
 
+        countryName.visibility = if (isCountryNameVisible)View.VISIBLE else View.GONE
         dropdownIcon.visibility = if (isDropdownIconVisible) View.VISIBLE else View.GONE
 
         return view
     }
 
     override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
+        val selectedCurrency = currencyList[position]
+
         val view = convertView ?: inflater.inflate(R.layout.currency_selection_spinner_dropdown_item, parent, false)
         val countryFlag = view.findViewById<ImageView>(R.id.currency_selection_spinner_dropdown_item_flag)
         val countryName = view.findViewById<TextView>(R.id.currency_selection_spinner_dropdown_item_country_name)
         val currencySymbol = view.findViewById<TextView>(R.id.currency_selection_spinner_dropdown_item_country_currency_symbol)
-
-        val selectedCurrency = currencyList[position]
 
         countryFlag.setImageResource(
             Util.getCountryFlagImage(selectedCurrency.symbol)
@@ -86,6 +88,8 @@ class CurrencySelectionSpinnerAdapter(
             R.string.currency_selection_currency_symbol,
             selectedCurrency.symbol
         )
+
+        countryName.visibility = if (isCountryNameVisible)View.VISIBLE else View.GONE
 
         return view
     }

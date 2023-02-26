@@ -88,7 +88,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                     id: Long
                 ) {
                     val selectedFromCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedFromCurrency, isFromData = true)
+                    updateCurrencySelectionItemViewModel(selectedFromCurrency, isFromCurrency = true)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -103,7 +103,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                     id: Long
                 ) {
                     val selectedToCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedToCurrency, isFromData = false)
+                    updateCurrencySelectionItemViewModel(selectedToCurrency, isFromCurrency = false)
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -120,16 +120,16 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             val toCurrency =
                 toCurrencySelectionSpinner.getItemAtPosition(1) as Currency
 
-            updateCurrencySelectionItemViewModel(fromCurrency, isFromData = true)
-            updateCurrencySelectionItemViewModel(toCurrency, isFromData = false)
+            updateCurrencySelectionItemViewModel(fromCurrency, isFromCurrency = true)
+            updateCurrencySelectionItemViewModel(toCurrency, isFromCurrency = false)
         }
     }
 
     private fun updateCurrencySelectionItemViewModel(
         item: Currency,
-        isFromData: Boolean
+        isFromCurrency: Boolean
     ) {
-        if (isFromData) {
+        if (isFromCurrency) {
             currencySelectionItemViewModel.updateFromData(
                 item.symbol,
                 item.countryName,
