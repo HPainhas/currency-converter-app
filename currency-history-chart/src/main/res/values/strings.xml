@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+
+    <string name="currency_history_chart_exchange_rate">1 %1$s = %2$.2f %3$s</string>
+
+</resources>

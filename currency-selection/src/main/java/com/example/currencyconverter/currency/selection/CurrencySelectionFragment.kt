@@ -16,7 +16,6 @@ import org.json.JSONObject
 class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment) {
 
     private lateinit var binding: CurrencySelectionFragmentBinding
-
     private lateinit var currencyList: List<Currency>
     private lateinit var latestExchangeRates: JSONObject
     private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
@@ -50,8 +49,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             }
 
             latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
-
-            currencyList = buildCurrencyList()
+            currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
 
             setUpLastUpdatedTime()
             setUpCurrencySelectionSpinnerAdapters()
@@ -161,7 +159,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         val convertedAmount = amount * (toRate / fromRate)
 
         val formattedExchangeRate = getString(
-            R.string.currency_selection_converted_amount_exchange,
+            R.string.currency_selection_exchange_rate,
             fromSymbol,
             exchangeRate,
             toSymbol
@@ -176,24 +174,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             R.string.currency_selection_converted_amount,
             convertedAmount
         )
-    }
-
-    private fun buildCurrencyList(): List<Currency> {
-        val currencyList: MutableList<Currency> = mutableListOf()
-        val currencyRates = latestExchangeRates.getJSONObject("rates")
-
-        for (symbol in currencyRates.keys()) {
-            val currency = Util.mapCurrency(symbol)
-
-            if (currency != null) {
-                currency.rate = currencyRates.getDouble(symbol)
-                currencyList.add(currency)
-            }
-        }
-
-        currencyList.sortBy { it.countryName }
-
-        return currencyList
     }
 
     companion object {

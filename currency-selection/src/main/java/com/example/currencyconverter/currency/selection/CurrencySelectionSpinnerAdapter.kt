@@ -19,11 +19,17 @@ class CurrencySelectionSpinnerAdapter(
     private var countryNameTextSize: Float,
     private var currencySymbolTextSize: Float,
     private var isCountryNameVisible: Boolean,
-    private var isDropdownIconVisible: Boolean
+    private var isDropdownIconVisible: Boolean,
+    private var includeParenthesis: Boolean
 ) : BaseAdapter() {
 
     private val inflater: LayoutInflater =
         context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+
+    private val currencySymbolStringFormat = when (includeParenthesis) {
+        true -> R.string.currency_selection_currency_symbol
+        false -> R.string.currency_selection_currency_symbol_without_parenthesis
+    }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val view: View
@@ -52,7 +58,7 @@ class CurrencySelectionSpinnerAdapter(
         countryName.setTextSize(TypedValue.COMPLEX_UNIT_SP, countryNameTextSize)
 
         currencySymbol.text = context.getString(
-            R.string.currency_selection_currency_symbol,
+            currencySymbolStringFormat,
             selectedCurrency.symbol
         )
         currencySymbol.setTextColor(currencySymbolTextColor)
@@ -85,7 +91,7 @@ class CurrencySelectionSpinnerAdapter(
             selectedCurrency.countryName
         )
         currencySymbol.text = context.getString(
-            R.string.currency_selection_currency_symbol,
+            currencySymbolStringFormat,
             selectedCurrency.symbol
         )
 
@@ -136,12 +142,30 @@ class CurrencySelectionSpinnerAdapter(
         notifyDataSetChanged()
     }
 
+    fun getIsCountryNameVisible(): Boolean {
+        return isCountryNameVisible
+    }
+
+    fun setIsCountryNameVisible(visible: Boolean) {
+        this.isCountryNameVisible = visible
+        notifyDataSetChanged()
+    }
+
     fun getIsDropdownIconVisible(): Boolean {
         return isDropdownIconVisible
     }
 
     fun setIsDropdownIconVisible(visible: Boolean) {
         this.isDropdownIconVisible = visible
+        notifyDataSetChanged()
+    }
+
+    fun getIncludeParenthesis(): Boolean {
+        return includeParenthesis
+    }
+
+    fun setIncludeParenthesis(include: Boolean) {
+        this.includeParenthesis = include
         notifyDataSetChanged()
     }
 

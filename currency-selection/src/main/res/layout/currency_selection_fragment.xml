@@ -53,6 +53,7 @@
             android:paddingEnd="@dimen/currency_selection_amount_padding_end"
             android:text="@string/currency_selection_initial_amount"
             android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
+            android:textStyle="bold"
             tools:text="$ 1,000,000,000.00" />
 
     </LinearLayout>
@@ -95,6 +96,7 @@
                 android:layout_gravity="end"
                 android:text="@string/currency_selection_initial_amount"
                 android:textAppearance="@style/CurrencySelectionSpinnerItemAmountTextStyle"
+                android:textStyle="bold"
                 tools:text="$ 1,000,000,000.00" />
 
             <TextView

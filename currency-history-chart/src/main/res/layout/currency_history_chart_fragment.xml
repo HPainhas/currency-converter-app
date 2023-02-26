@@ -5,43 +5,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <Spinner
-        android:id="@+id/currency_history_chart_spinner_from"
-        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/currency_history_chart_spinner_container"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/currency_history_chart_spinner_from_margin_top"
-        android:background="@drawable/currency_selection_spinner_background"
-        android:dropDownHorizontalOffset="0dp"
-        android:dropDownVerticalOffset="0dp"
-        android:spinnerMode="dropdown"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/currency_selection_spinner_item" />
-
-    <ImageView
-        android:id="@+id/currency_history_chart_exchange_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_swap_filled"
-        app:layout_constraintBottom_toBottomOf="@id/currency_history_chart_spinner_from"
-        app:layout_constraintEnd_toStartOf="@id/currency_history_chart_spinner_to"
-        app:layout_constraintStart_toEndOf="@id/currency_history_chart_spinner_from"
-        app:layout_constraintTop_toTopOf="@id/currency_history_chart_spinner_from"
-        app:tint="@color/gray" />
-
-    <Spinner
-        android:id="@+id/currency_history_chart_spinner_to"
-        style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/currency_selection_spinner_background"
-        android:dropDownHorizontalOffset="0dp"
-        android:dropDownVerticalOffset="0dp"
-        android:spinnerMode="dropdown"
-        app:layout_constraintBottom_toBottomOf="@id/currency_history_chart_exchange_icon"
+        android:layout_marginTop="@dimen/currency_history_chart_spinner_container_margin_top"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/currency_history_chart_exchange_icon"
-        tools:listitem="@layout/currency_selection_spinner_item" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
+            android:id="@+id/currency_history_chart_spinner_from"
+            style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/currency_selection_spinner_background"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="0dp"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/currency_selection_spinner_item" />
+
+        <ImageView
+            android:id="@+id/currency_history_chart_exchange_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingHorizontal="@dimen/currency_history_chart_exchange_icon_padding_horizontal"
+            android:src="@drawable/ic_swap_filled"
+            app:tint="@color/gray"
+            tools:ignore="ContentDescription" />
+
+        <com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
+            android:id="@+id/currency_history_chart_spinner_to"
+            style="@style/CurrencySelectionSpinnerNoDropdownIconStyle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/currency_selection_spinner_background"
+            android:dropDownHorizontalOffset="0dp"
+            android:dropDownVerticalOffset="0dp"
+            android:spinnerMode="dropdown"
+            tools:listitem="@layout/currency_selection_spinner_item" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/currency_history_chart_exchange_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_history_chart_exchange_rate_margin_top"
+        android:text="1 BRL = 0.193453 USD"
+        android:textSize="@dimen/currency_history_chart_exchange_rate_text_size"
+        android:textColor="@color/black"
+        app:layout_constraintStart_toStartOf="@id/currency_history_chart_spinner_container"
+        app:layout_constraintTop_toBottomOf="@id/currency_history_chart_spinner_container"
+        tools:text="1 BRL = 0.193453 USD" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

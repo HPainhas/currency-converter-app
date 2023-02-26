@@ -1,6 +1,6 @@
 package com.example.currencyconverter.util
 
-import android.provider.Settings.System.DATE_FORMAT
+import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -68,7 +68,24 @@ class Util {
         fun removeAllNonNumericCharacters(originalString: String): String =
             originalString.replace("\\D".toRegex(), "")
 
-        fun mapCurrency(currencySymbol: String): Currency? {
+        fun buildCurrencyList(currencyRates: JSONObject): List<Currency> {
+            val currencyList: MutableList<Currency> = mutableListOf()
+
+            for (symbol in currencyRates.keys()) {
+                val currency = mapCurrency(symbol)
+
+                if (currency != null) {
+                    currency.rate = currencyRates.getDouble(symbol)
+                    currencyList.add(currency)
+                }
+            }
+
+            currencyList.sortBy { it.countryName }
+
+            return currencyList
+        }
+
+        private fun mapCurrency(currencySymbol: String): Currency? {
             return when (currencySymbol) {
                 "AED" -> Currency("AED", "United Arab Emirates", "AE", 0.0, "ae.svg")
                 "AUD" -> Currency("AUD", "Australia", "AU", 0.0, "au.svg")

@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="ContentDescription"
-            tools:src="@drawable/flag_eu" />
+            tools:src="@drawable/flag_br" />
 
     </androidx.cardview.widget.CardView>
 
@@ -46,14 +46,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/CurrencySelectionSpinnerItemCountryTextStyle"
-            tools:text="European Union" />
+            tools:text="Brazil" />
 
         <TextView
             android:id="@+id/currency_selection_spinner_item_country_currency_symbol"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="@style/CurrencySelectionSpinnerItemCountryTextStyle"
-            tools:text="(EUR)" />
+            tools:text="(BRL)" />
 
     </LinearLayout>
 
