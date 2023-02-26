@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.currencyconverter.api.ExchangeRatesApiLayerApi
 import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.history.chart.databinding.CurrencyHistoryChartFragmentBinding
 import com.example.currencyconverter.currency.selection.CurrencySelectionItemViewModel
@@ -53,12 +54,11 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             setUpCurrencySelectionSpinnerListeners()
             initializeCurrencySelectionSpinners()
 
-//            API CALL
-//            historicalRates = ExchangeRatesApiLayerApi.getCurrencyHistory(
-//                context = requireContext(),
-//                fromCurrencySymbol = "USD",
-//                toCurrencySymbol = "BRL"
-//            )
+            historicalRates = ExchangeRatesApiLayerApi.getCurrencyHistory(
+                context = requireContext(),
+                fromCurrencySymbol = "USD",
+                toCurrencySymbol = "BRL"
+            )
         }
     }
 
