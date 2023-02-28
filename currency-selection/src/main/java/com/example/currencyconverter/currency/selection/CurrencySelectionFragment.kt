@@ -11,6 +11,7 @@ import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.selection.databinding.CurrencySelectionFragmentBinding
 import com.example.currencyconverter.util.Util
 import com.example.currencyconverter.util.Currency
+import com.example.currencyconverter.util.ProgressBarViewModel
 import org.json.JSONObject
 
 class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment) {
@@ -21,6 +22,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
     private lateinit var toCurrencySelectionSpinner: CurrencySelectionSpinner
 
+    private val progressBarViewModel: ProgressBarViewModel by activityViewModels()
     private val currencySelectionItemViewModel: CurrencySelectionItemViewModel by activityViewModels()
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
 
@@ -35,6 +37,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressBarViewModel.setShowProgressBar(true)
 
         if (savedInstanceState == null) {
             fromCurrencySelectionSpinner =  binding.currencySelectionSpinnerFrom
@@ -56,6 +59,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             setUpCurrencySelectionSpinnerListeners()
             initializeCurrencySelectionSpinners()
         }
+
+        progressBarViewModel.setShowProgressBar(false)
     }
 
     private fun setUpLastUpdatedTime() {

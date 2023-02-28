@@ -42,9 +42,9 @@
                 android:id="@+id/navigation_bar_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/navigation_bar_toolbar_title_margin_start"
                 android:textAppearance="@style/ToolbarTitleTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginStart="@dimen/navigation_bar_toolbar_title_margin_start"
                 app:layout_constraintStart_toEndOf="@id/navigation_bar_toolbar_title_app_name"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Convert" />
@@ -84,6 +84,29 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/navigation_bar_menu" />
+
+    <include
+        android:id="@+id/navigation_bar_dimming_overlay"
+        layout="@layout/dimming_overlay"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:id="@+id/navigation_bar_progress_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include android:id="@+id/navigation_bar_progress_bar"
+            layout="@layout/progress_bar"
+            tools:visibility="gone"/>
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

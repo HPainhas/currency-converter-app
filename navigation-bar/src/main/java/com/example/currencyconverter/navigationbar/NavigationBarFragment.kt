@@ -5,16 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
 import com.example.currencyconverter.currency.conversion.CurrencyConversionFragment
 import com.example.currencyconverter.currency.favorite.CurrencyFavoriteFragment
 import com.example.currencyconverter.currency.history.chart.CurrencyHistoryChartFragment
 import com.example.currencyconverter.navigationbar.databinding.NavigationBarFragmentBinding
-
+import com.example.currencyconverter.util.ProgressBarViewModel
 
 class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
 
     private lateinit var binding: NavigationBarFragmentBinding
+
+    private val progressBarViewModel: ProgressBarViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,12 +32,27 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
         super.onViewCreated(view, savedInstanceState)
 
         if (savedInstanceState == null) {
+            setUpProgressBarObserver()
             setUpNavigationBarMenuItemListeners()
             replaceFragment(CurrencyConversionFragment())
             updateActionBar(CurrencyConversionFragment().javaClass.simpleName)
 
-            // Start the app with the convert fragment selected
+            // Start the app with the convert fragment menu item selected
             binding.navigationBar.selectedItemId = R.id.navigation_bar_menu_convert
+        }
+    }
+
+    private fun setUpProgressBarObserver() {
+        progressBarViewModel.showProgressBar.observe(viewLifecycleOwner) { show ->
+            if (show) {
+                binding.navigationBarDimmingOverlay.dimmingOverlay
+                    .animate().alpha(0.5f).setDuration(200).start()
+            }
+
+            binding.navigationBarDimmingOverlay.dimmingOverlay.visibility =
+                if (show) View.VISIBLE else View.GONE
+            binding.navigationBarProgressBar.progressBar.visibility =
+                if (show) View.VISIBLE else View.GONE
         }
     }
 

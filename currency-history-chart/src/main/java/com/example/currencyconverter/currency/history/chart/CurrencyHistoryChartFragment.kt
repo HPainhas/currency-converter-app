@@ -13,6 +13,7 @@ import com.example.currencyconverter.currency.history.chart.databinding.Currency
 import com.example.currencyconverter.currency.selection.CurrencySelectionItemViewModel
 import com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
 import com.example.currencyconverter.util.Currency
+import com.example.currencyconverter.util.ProgressBarViewModel
 import com.example.currencyconverter.util.Util
 import org.json.JSONObject
 
@@ -25,6 +26,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
     private lateinit var toCurrencySelectionSpinner: CurrencySelectionSpinner
 
+    private val progressBarViewModel: ProgressBarViewModel by activityViewModels()
     private val currencySelectionItemViewModel: CurrencySelectionItemViewModel by activityViewModels()
 
     override fun onCreateView(
@@ -38,6 +40,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progressBarViewModel.setShowProgressBar(true)
 
         if (savedInstanceState == null) {
             fromCurrencySelectionSpinner =  binding.currencyHistoryChartSpinnerFrom
@@ -48,18 +51,26 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             }
 
             latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
-            currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
 
-            setUpCurrencySelectionSpinnerAdapters()
-            setUpCurrencySelectionSpinnerListeners()
-            initializeCurrencySelectionSpinners()
+            if (latestExchangeRates.has("rates")) {
+                currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
+            } else {
+                throw Exception("latestExchangeRates came back empty")
+            }
 
             historicalRates = ExchangeRatesApiLayerApi.getCurrencyHistory(
                 context = requireContext(),
                 fromCurrencySymbol = "USD",
                 toCurrencySymbol = "BRL"
             )
+
+            setUpCurrencySelectionSpinnerAdapters()
+            setUpCurrencySelectionSpinnerListeners()
+            initializeCurrencySelectionSpinners()
+
         }
+
+        progressBarViewModel.setShowProgressBar(false)
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {

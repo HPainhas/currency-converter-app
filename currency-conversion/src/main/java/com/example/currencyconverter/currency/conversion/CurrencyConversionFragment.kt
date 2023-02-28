@@ -38,12 +38,8 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
         if (savedInstanceState == null) {
             handler = Handler(Looper.getMainLooper())
 
-            parentFragmentManager.commit {
-                add(
-                    R.id.currency_conversion_fragment_container_view,
-                    CurrencySelectionFragment()
-                )
-            }
+            loadCurrencySelectionFragment()
+            setUpCurrencyAmountEditTextListener()
 
             binding.currencyConversionConvertButton.setOnClickListener {
                 val enteredAmount = binding.currencyConversionAmountEditText.text
@@ -55,8 +51,15 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
                     currencySelectionAmountViewModel.updateAmount(amount)
                 }
             }
+        }
+    }
 
-            setUpCurrencyAmountEditTextListener()
+    private fun loadCurrencySelectionFragment() {
+        parentFragmentManager.commit {
+            add(
+                R.id.currency_conversion_fragment_container_view,
+                CurrencySelectionFragment()
+            )
         }
     }
 
