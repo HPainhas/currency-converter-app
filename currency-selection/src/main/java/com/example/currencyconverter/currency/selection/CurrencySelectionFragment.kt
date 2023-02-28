@@ -64,8 +64,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
 
             setUpCurrencySelectionSpinnerListeners()
         }
-
-        progressBarViewModel.setShowProgressBar(false)
     }
 
     override fun onSuccessApiResponse(responseBody: String, identifier: String) {
@@ -83,10 +81,13 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         } else {
             throw Exception("latestExchangeRates came back empty")
         }
+
+        progressBarViewModel.setShowProgressBar(false)
     }
 
     override fun onFailureApiResponse(errorMessage: String) {
         Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
+        progressBarViewModel.setShowProgressBar(false)
     }
 
     private fun setUpLastUpdatedTime() {

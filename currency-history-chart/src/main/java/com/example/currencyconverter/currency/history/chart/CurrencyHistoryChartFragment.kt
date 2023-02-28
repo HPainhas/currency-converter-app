@@ -71,8 +71,6 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
 
             setUpCurrencySelectionSpinnerListeners()
         }
-
-        progressBarViewModel.setShowProgressBar(false)
     }
 
     override fun onSuccessApiResponse(responseBody: String, identifier: String) {
@@ -95,10 +93,13 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
                 historicalRates = JSONObject(responseBody)
             }
         }
+
+        progressBarViewModel.setShowProgressBar(false)
     }
 
     override fun onFailureApiResponse(errorMessage: String) {
         Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
+        progressBarViewModel.setShowProgressBar(false)
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {
