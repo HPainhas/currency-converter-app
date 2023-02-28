@@ -1,12 +1,16 @@
 package com.example.currencyconverter.currency.history.chart
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.api.ExchangeRatesApiLayerApi
 import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.history.chart.databinding.CurrencyHistoryChartFragmentBinding
@@ -17,7 +21,7 @@ import com.example.currencyconverter.util.ProgressBarViewModel
 import com.example.currencyconverter.util.Util
 import org.json.JSONObject
 
-class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fragment) {
+class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fragment), ApiResponseCallback {
 
     private lateinit var binding: CurrencyHistoryChartFragmentBinding
     private lateinit var currencyList: List<Currency>
@@ -26,6 +30,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
     private lateinit var toCurrencySelectionSpinner: CurrencySelectionSpinner
 
+    private val handler = Handler(Looper.getMainLooper())
     private val progressBarViewModel: ProgressBarViewModel by activityViewModels()
     private val currencySelectionItemViewModel: CurrencySelectionItemViewModel by activityViewModels()
 
@@ -50,27 +55,50 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
                 updateUI()
             }
 
-            latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
-
-            if (latestExchangeRates.has("rates")) {
-                currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
-            } else {
-                throw Exception("latestExchangeRates came back empty")
-            }
-
-            historicalRates = ExchangeRatesApiLayerApi.getCurrencyHistory(
-                context = requireContext(),
-                fromCurrencySymbol = "USD",
-                toCurrencySymbol = "BRL"
+            OpenExchangeRatesApi.getLatestCurrencyRates(
+                requireContext(),
+                LATEST_EXCHANGE_RATES_ID,
+                this
             )
 
-            setUpCurrencySelectionSpinnerAdapters()
-            setUpCurrencySelectionSpinnerListeners()
-            initializeCurrencySelectionSpinners()
+            ExchangeRatesApiLayerApi.getCurrencyHistory(
+                context = requireContext(),
+                fromCurrencySymbol = "USD",
+                toCurrencySymbol = "BRL",
+                HISTORICAL_RATES_ID,
+                this
+            )
 
+            setUpCurrencySelectionSpinnerListeners()
         }
 
         progressBarViewModel.setShowProgressBar(false)
+    }
+
+    override fun onSuccessApiResponse(responseBody: String, identifier: String) {
+        when(identifier) {
+            LATEST_EXCHANGE_RATES_ID -> {
+                latestExchangeRates = JSONObject(responseBody)
+
+                if (latestExchangeRates.has("rates")) {
+                    currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
+
+                    Thread {
+                        handler.post { setUpCurrencySelectionSpinnerAdapters() }
+                    }.start()
+                } else {
+                    Log.d(this.javaClass.simpleName, "latestExchangeRates came back empty" )
+                    throw Exception("latestExchangeRates came back empty")
+                }
+            }
+            HISTORICAL_RATES_ID -> {
+                historicalRates = JSONObject(responseBody)
+            }
+        }
+    }
+
+    override fun onFailureApiResponse(errorMessage: String) {
+        Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {
@@ -86,10 +114,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             includeParenthesis = false
         )
 
-        if (currencyList.size > 1) {
-            fromCurrencySelectionSpinner.setSelection(0)
-            toCurrencySelectionSpinner.setSelection(1)
-        }
+        initializeCurrencySelectionSpinners()
     }
 
     private fun setUpCurrencySelectionSpinnerListeners() {
@@ -180,5 +205,10 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
         )
 
         binding.currencyHistoryChartExchangeRate.text = formattedExchangeRate
+    }
+
+    companion object {
+        private const val LATEST_EXCHANGE_RATES_ID = "latestExchangeRates"
+        private const val HISTORICAL_RATES_ID = "historicalRates"
     }
 }

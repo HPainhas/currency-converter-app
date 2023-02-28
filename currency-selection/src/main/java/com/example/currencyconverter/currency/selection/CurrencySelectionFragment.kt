@@ -1,12 +1,16 @@
 package com.example.currencyconverter.currency.selection
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.selection.databinding.CurrencySelectionFragmentBinding
 import com.example.currencyconverter.util.Util
@@ -14,7 +18,7 @@ import com.example.currencyconverter.util.Currency
 import com.example.currencyconverter.util.ProgressBarViewModel
 import org.json.JSONObject
 
-class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment) {
+class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment), ApiResponseCallback {
 
     private lateinit var binding: CurrencySelectionFragmentBinding
     private lateinit var currencyList: List<Currency>
@@ -22,6 +26,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
     private lateinit var toCurrencySelectionSpinner: CurrencySelectionSpinner
 
+    private val handler = Handler(Looper.getMainLooper())
     private val progressBarViewModel: ProgressBarViewModel by activityViewModels()
     private val currencySelectionItemViewModel: CurrencySelectionItemViewModel by activityViewModels()
     private val currencySelectionAmountViewModel: CurrencySelectionAmountViewModel by activityViewModels()
@@ -51,16 +56,37 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                 updateUI()
             }
 
-            latestExchangeRates = OpenExchangeRatesApi.getLatestCurrencyRates(requireContext())
-            currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
+            OpenExchangeRatesApi.getLatestCurrencyRates(
+                requireContext(),
+                LATEST_EXCHANGE_RATES_ID,
+                this
+            )
 
-            setUpLastUpdatedTime()
-            setUpCurrencySelectionSpinnerAdapters()
             setUpCurrencySelectionSpinnerListeners()
-            initializeCurrencySelectionSpinners()
         }
 
         progressBarViewModel.setShowProgressBar(false)
+    }
+
+    override fun onSuccessApiResponse(responseBody: String, identifier: String) {
+        latestExchangeRates = JSONObject(responseBody)
+
+        if (latestExchangeRates.has("rates")) {
+            currencyList = Util.buildCurrencyList(latestExchangeRates.getJSONObject("rates"))
+
+            Thread {
+                handler.post {
+                    setUpLastUpdatedTime()
+                    setUpCurrencySelectionSpinnerAdapters()
+                }
+            }.start()
+        } else {
+            throw Exception("latestExchangeRates came back empty")
+        }
+    }
+
+    override fun onFailureApiResponse(errorMessage: String) {
+        Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
     }
 
     private fun setUpLastUpdatedTime() {
@@ -79,6 +105,8 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     private fun setUpCurrencySelectionSpinnerAdapters() {
         fromCurrencySelectionSpinner.setAdapter(currencyList)
         toCurrencySelectionSpinner.setAdapter(currencyList)
+
+        initializeCurrencySelectionSpinners()
     }
 
     private fun setUpCurrencySelectionSpinnerListeners() {
@@ -184,5 +212,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
     companion object {
         private const val TIMEZONE = "America/Phoenix"
         private const val DATE_FORMAT = "dd MMM yyyy HH:mm:SS"
+        private const val LATEST_EXCHANGE_RATES_ID = "latestExchangeRates"
     }
 }

@@ -11,12 +11,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.currency.conversion.databinding.CurrencyConversionFragmentBinding
 import com.example.currencyconverter.currency.selection.*
 import com.example.currencyconverter.util.Util
 import java.text.DecimalFormat
 
-class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragment) {
+class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragment), ApiResponseCallback {
 
     private lateinit var handler: Handler
     private lateinit var binding: CurrencyConversionFragmentBinding
@@ -124,4 +125,8 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
         private const val CURRENCY_PATTERN = "$ #,###.00"
         private const val MAX_LENGTH_CLEAN_STRING = 12
     }
+
+    override fun onSuccessApiResponse(responseBody: String, identifier: String) { /* no-ops */ }
+
+    override fun onFailureApiResponse(errorMessage: String) { /* no-ops */ }
 }

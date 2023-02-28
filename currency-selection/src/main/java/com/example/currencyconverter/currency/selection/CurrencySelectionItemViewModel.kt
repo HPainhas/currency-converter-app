@@ -1,11 +1,15 @@
 package com.example.currencyconverter.currency.selection
 
+import android.os.Handler
+import android.os.Looper
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class CurrencySelectionItemViewModel : ViewModel() {
+    private val handler = Handler(Looper.getMainLooper())
+
     private var _fromSymbol = MutableLiveData("BRL")
     val fromSymbol: LiveData<String> = _fromSymbol
 
@@ -78,11 +82,15 @@ class CurrencySelectionItemViewModel : ViewModel() {
         rate: Double?,
         imageName: String?
     ) {
-        this._fromSymbol.value = symbol
-        this._fromCountryName.value = countryName
-        this._fromCountryCode.value = countryCode
-        this._fromRate.value = rate
-        this._fromImageName.value = imageName
+        Thread {
+            handler.post {
+                this._fromSymbol.value = symbol
+                this._fromCountryName.value = countryName
+                this._fromCountryCode.value = countryCode
+                this._fromRate.value = rate
+                this._fromImageName.value = imageName
+            }
+        }.start()
     }
 
     fun updateToData(
@@ -92,10 +100,14 @@ class CurrencySelectionItemViewModel : ViewModel() {
         rate: Double?,
         imageName: String?
     ) {
-        this._toSymbol.value = symbol
-        this._toCountryName.value = countryName
-        this._toCountryCode.value = countryCode
-        this._toRate.value = rate
-        this._toImageName.value = imageName
+        Thread {
+            handler.post {
+                this._toSymbol.value = symbol
+                this._toCountryName.value = countryName
+                this._toCountryCode.value = countryCode
+                this._toRate.value = rate
+                this._toImageName.value = imageName
+            }
+        }.start()
     }
 }

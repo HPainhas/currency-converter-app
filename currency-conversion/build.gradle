@@ -36,6 +36,7 @@ android {
 dependencies {
 
     // Modules
+    implementation project(':api')
     implementation project(':brand-kit')
     implementation project(path: ':currency-selection')
     implementation project(path: ':util')

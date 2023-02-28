@@ -2,24 +2,29 @@ package com.example.currencyconverter.api
 
 import android.content.Context
 import com.google.gson.Gson
-import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
 import java.io.FileNotFoundException
-
 object OpenExchangeRatesApi {
 
     private const val OPEN_EXCHANGE_RATES_CONFIG_FILE = "open-exchange-rates-config.json"
     private const val OPEN_EXCHANGE_RATES_BASE_URL = "https://openexchangerates.org/api"
 
-    fun getLatestCurrencyRates(context: Context): JSONObject {
+    fun getLatestCurrencyRates(
+        context: Context,
+        identifier: String,
+        callback: ApiResponseCallback
+    ) {
         val appId = getOpenExchangeRatesApiAppId(context)
+        val url = "$OPEN_EXCHANGE_RATES_BASE_URL/latest.json?app_id=$appId"
 
-        return runBlocking {
-            OkHttpClient.getRequestAsync(
-                context,
-                "$OPEN_EXCHANGE_RATES_BASE_URL/latest.json?app_id=$appId"
-            )
-        } ?: JSONObject()
+        OkHttpClient.getRequest(context, url, identifier, object : ApiResponseCallback {
+            override fun onFailureApiResponse(errorMessage: String) {
+                callback.onFailureApiResponse(errorMessage)
+            }
+
+            override fun onSuccessApiResponse(responseBody: String, identifier: String) {
+                callback.onSuccessApiResponse(responseBody, identifier)
+            }
+        })
     }
 
     private fun getOpenExchangeRatesApiAppId(context: Context): String? {

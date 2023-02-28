@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
+import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.currency.conversion.CurrencyConversionFragment
 import com.example.currencyconverter.currency.favorite.CurrencyFavoriteFragment
 import com.example.currencyconverter.currency.history.chart.CurrencyHistoryChartFragment
 import com.example.currencyconverter.navigationbar.databinding.NavigationBarFragmentBinding
 import com.example.currencyconverter.util.ProgressBarViewModel
 
-class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
+class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment), ApiResponseCallback {
 
     private lateinit var binding: NavigationBarFragmentBinding
 
@@ -102,4 +103,8 @@ class NavigationBarFragment : Fragment(R.layout.navigation_bar_fragment) {
             replace(R.id.navigation_bar_fragment_container_view, fragment)
         }
     }
+
+    override fun onSuccessApiResponse(responseBody: String, identifier: String) { /* no-ops */ }
+
+    override fun onFailureApiResponse(errorMessage: String) { /* no-ops */ }
 }

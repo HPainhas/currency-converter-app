@@ -3,8 +3,6 @@ package com.example.currencyconverter.api
 import android.content.Context
 import com.example.currencyconverter.util.Util
 import com.google.gson.Gson
-import kotlinx.coroutines.runBlocking
-import org.json.JSONObject
 import java.io.FileNotFoundException
 
 object ExchangeRatesApiLayerApi {
@@ -15,8 +13,10 @@ object ExchangeRatesApiLayerApi {
     fun getCurrencyHistory(
         context: Context,
         fromCurrencySymbol: String,
-        toCurrencySymbol: String
-    ): JSONObject {
+        toCurrencySymbol: String,
+        identifier: String,
+        callback: ApiResponseCallback
+    ) {
         val endDate = Util.getCurrentDate("yyyy-MM-dd")
         val startDate = Util.getDateOneYearAgo("yyyy-MM-dd", endDate)
         val apiKey = getExchangeRatesApiLayerApiKey(context)
@@ -33,16 +33,24 @@ object ExchangeRatesApiLayerApi {
             params
         )
 
-        return runBlocking {
-            OkHttpClient.getRequestAsync(context, url)
-        } ?: JSONObject()
+        OkHttpClient.getRequest(context, url, identifier, object : ApiResponseCallback {
+            override fun onFailureApiResponse(errorMessage: String) {
+                callback.onFailureApiResponse(errorMessage)
+            }
+
+            override fun onSuccessApiResponse(responseBody: String, identifier: String) {
+                callback.onSuccessApiResponse(responseBody, identifier)
+            }
+        })
     }
 
     fun getCurrencyStatistics(
         context: Context,
         fromCurrencySymbol: String,
-        toCurrencySymbol: String
-    ): JSONObject {
+        toCurrencySymbol: String,
+        identifier: String,
+        callback: ApiResponseCallback
+    ) {
         val apiKey = getExchangeRatesApiLayerApiKey(context)
         val params = listOf(
             "apiKey=$apiKey",
@@ -55,9 +63,15 @@ object ExchangeRatesApiLayerApi {
             params
         )
 
-        return runBlocking {
-            OkHttpClient.getRequestAsync(context, url)
-        } ?: JSONObject()
+        OkHttpClient.getRequest(context, url, identifier, object : ApiResponseCallback {
+            override fun onFailureApiResponse(errorMessage: String) {
+                callback.onFailureApiResponse(errorMessage)
+            }
+
+            override fun onSuccessApiResponse(responseBody: String, identifier: String) {
+                callback.onSuccessApiResponse(responseBody, identifier)
+            }
+        })
     }
 
     private fun getExchangeRatesApiLayerApiKey(context: Context): String? {
