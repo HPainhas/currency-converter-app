@@ -63,6 +63,9 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
             )
 
             setUpCurrencySelectionSpinnerListeners()
+
+            // Always reset amount to $ 0.00
+            currencySelectionAmountViewModel.updateAmount(0.00)
         }
     }
 

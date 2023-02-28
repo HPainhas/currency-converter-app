@@ -23,11 +23,12 @@
         android:layout_height="@dimen/currency_conversion_amount_edit_text_height"
         android:layout_marginTop="@dimen/currency_conversion_amount_edit_text_margin_top"
         android:autofillHints=""
+        android:digits="0123456789."
         android:gravity="center"
         android:hint="@string/currency_conversion_amount_edit_text_hint"
         android:inputType="numberDecimal"
-        android:digits="0123456789."
         android:paddingHorizontal="@dimen/currency_conversion_amount_edit_text_padding_horizontal"
+        android:text="@string/currency_conversion_amount_starting_value"
         app:layout_constraintEnd_toStartOf="@id/currency_conversion_convert_button"
         app:layout_constraintStart_toStartOf="@id/currency_conversion_amount_header"
         app:layout_constraintTop_toBottomOf="@id/currency_conversion_amount_header" />
@@ -39,8 +40,8 @@
         android:layout_height="@dimen/currency_converter_button_height"
         android:layout_marginStart="@dimen/currency_conversion_convert_button_margin_start"
         android:text="@string/currency_conversion_convert"
-        app:layout_constraintEnd_toEndOf="@id/currency_conversion_amount_header"
         app:layout_constraintBottom_toBottomOf="@id/currency_conversion_amount_edit_text"
+        app:layout_constraintEnd_toEndOf="@id/currency_conversion_amount_header"
         app:layout_constraintTop_toTopOf="@id/currency_conversion_amount_edit_text" />
 
     <androidx.fragment.app.FragmentContainerView
@@ -66,10 +67,10 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/currency_conversion_add_currency_button"
             style="@style/CurrencyConverterSecondaryButtonStyle"
-            android:enabled="false"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/currency_converter_button_height"
             android:layout_gravity="center_vertical"
+            android:enabled="false"
             android:text="@string/currency_conversion_add_currency" />
 
         <TextView
