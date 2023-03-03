@@ -2,4 +2,6 @@
 
     <string name="app_name">Currency Converter</string>
 
+    <string name="splash_screen_app_name">Currency Converter</string>
+
 </resources>
