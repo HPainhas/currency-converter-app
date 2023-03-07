@@ -9,7 +9,7 @@ object CurrencySelectionUtils {
         currencyList: List<Currency>,
         fromCurrencySelectionSpinner: CurrencySelectionSpinner,
         toCurrencySelectionSpinner: CurrencySelectionSpinner,
-        updateCurrencySelectionItemViewModel: (Currency, Boolean) -> Unit
+        currencySelectionItemViewModel: CurrencySelectionItemViewModel
     ) {
         // Set up item selected listeners for the spinners
         fromCurrencySelectionSpinner.onItemSelectedListener =
@@ -21,7 +21,11 @@ object CurrencySelectionUtils {
                     id: Long
                 ) {
                     val selectedFromCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedFromCurrency, true)
+                    updateCurrencySelectionItemViewModel(
+                        selectedFromCurrency,
+                        isFromCurrency = true,
+                        currencySelectionItemViewModel
+                    )
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -36,7 +40,11 @@ object CurrencySelectionUtils {
                     id: Long
                 ) {
                     val selectedToCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedToCurrency, false)
+                    updateCurrencySelectionItemViewModel(
+                        selectedToCurrency,
+                        isFromCurrency = false,
+                        currencySelectionItemViewModel
+                    )
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {}
@@ -52,8 +60,40 @@ object CurrencySelectionUtils {
             val toCurrency =
                 toCurrencySelectionSpinner.getItemAtPosition(1) as Currency
 
-            updateCurrencySelectionItemViewModel(fromCurrency, true)
-            updateCurrencySelectionItemViewModel(toCurrency, false)
+            updateCurrencySelectionItemViewModel(
+                fromCurrency,
+                isFromCurrency = true,
+                currencySelectionItemViewModel
+            )
+            updateCurrencySelectionItemViewModel(
+                toCurrency,
+                isFromCurrency = false,
+                currencySelectionItemViewModel
+            )
+        }
+    }
+
+    private fun updateCurrencySelectionItemViewModel(
+        item: Currency,
+        isFromCurrency: Boolean,
+        currencySelectionItemViewModel: CurrencySelectionItemViewModel
+    ) {
+        if (isFromCurrency) {
+            currencySelectionItemViewModel.updateFromData(
+                item.symbol,
+                item.countryName,
+                item.countryCode,
+                item.rate,
+                item.imageName
+            )
+        } else {
+            currencySelectionItemViewModel.updateToData(
+                item.symbol,
+                item.countryName,
+                item.countryCode,
+                item.rate,
+                item.imageName
+            )
         }
     }
 }

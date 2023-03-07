@@ -60,10 +60,10 @@ class Util {
         }
 
         fun removeDollarSignAndCommas(originalString: String): String =
-            originalString.replace(Regex("""[$,]"""), "")
+            originalString.replace(Regex("""[$,\\s]"""), "")
 
         fun removeDollarSignCommasAndDecimalPoints(originalString: String): String =
-            originalString.replace(Regex("""[$,.]"""), "")
+            originalString.replace(Regex("""[$,.\\s]"""), "")
 
         fun removeAllNonNumericCharacters(originalString: String): String =
             originalString.replace("\\D".toRegex(), "")

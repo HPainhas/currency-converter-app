@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.api.OpenExchangeRatesApi
-import com.example.currencyconverter.currency.selection.CurrencySelectionUtils.initializeCurrencySelectionSpinners
 import com.example.currencyconverter.currency.selection.databinding.CurrencySelectionFragmentBinding
 import com.example.currencyconverter.util.Util
 import com.example.currencyconverter.util.Currency
@@ -109,35 +108,12 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         fromCurrencySelectionSpinner.setAdapter(currencyList)
         toCurrencySelectionSpinner.setAdapter(currencyList)
 
-        initializeCurrencySelectionSpinners(
+        CurrencySelectionUtils.initializeCurrencySelectionSpinners(
             currencyList,
             fromCurrencySelectionSpinner,
             toCurrencySelectionSpinner,
-            ::updateCurrencySelectionItemViewModel
+            currencySelectionItemViewModel
         )
-    }
-
-    private fun updateCurrencySelectionItemViewModel(
-        item: Currency,
-        isFromCurrency: Boolean
-    ) {
-        if (isFromCurrency) {
-            currencySelectionItemViewModel.updateFromData(
-                item.symbol,
-                item.countryName,
-                item.countryCode,
-                item.rate,
-                item.imageName
-            )
-        } else {
-            currencySelectionItemViewModel.updateToData(
-                item.symbol,
-                item.countryName,
-                item.countryCode,
-                item.rate,
-                item.imageName
-            )
-        }
     }
 
     private fun updateUI() {

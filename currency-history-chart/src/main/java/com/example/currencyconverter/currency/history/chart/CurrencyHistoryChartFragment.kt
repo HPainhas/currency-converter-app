@@ -117,31 +117,8 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             currencyList,
             fromCurrencySelectionSpinner,
             toCurrencySelectionSpinner,
-            ::updateCurrencySelectionItemViewModel
+            currencySelectionItemViewModel
         )
-    }
-
-    private fun updateCurrencySelectionItemViewModel(
-        item: Currency,
-        isFromCurrency: Boolean
-    ) {
-        if (isFromCurrency) {
-            currencySelectionItemViewModel.updateFromData(
-                item.symbol,
-                item.countryName,
-                item.countryCode,
-                item.rate,
-                item.imageName
-            )
-        } else {
-            currencySelectionItemViewModel.updateToData(
-                item.symbol,
-                item.countryName,
-                item.countryCode,
-                item.rate,
-                item.imageName
-            )
-        }
     }
 
     private fun updateUI() {
