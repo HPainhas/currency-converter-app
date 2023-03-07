@@ -56,7 +56,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/currency_history_chart_exchange_rate_margin_top"
-        android:text="1 BRL = 0.193453 USD"
         android:textSize="@dimen/currency_history_chart_exchange_rate_text_size"
         android:textColor="@color/black"
         app:layout_constraintStart_toStartOf="@id/currency_history_chart_spinner_container"

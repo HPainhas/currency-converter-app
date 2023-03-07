@@ -51,23 +51,26 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             fromCurrencySelectionSpinner =  binding.currencyHistoryChartSpinnerFrom
             toCurrencySelectionSpinner =  binding.currencyHistoryChartSpinnerTo
 
-            currencySelectionItemViewModel.updateLiveData.observe(viewLifecycleOwner) {
-                updateUI()
-            }
-
             OpenExchangeRatesApi.getLatestCurrencyRates(
                 requireContext(),
                 LATEST_EXCHANGE_RATES_ID,
                 this
             )
 
-            ExchangeRatesApiLayerApi.getCurrencyHistory(
-                context = requireContext(),
-                fromCurrencySymbol = "USD",
-                toCurrencySymbol = "BRL",
-                HISTORICAL_RATES_ID,
-                this
-            )
+            currencySelectionItemViewModel.addObserver {
+                ExchangeRatesApiLayerApi.getCurrencyHistory(
+                    context = requireContext(),
+                    fromCurrencySymbol = currencySelectionItemViewModel.fromSymbol.value!!,
+                    toCurrencySymbol = currencySelectionItemViewModel.toSymbol.value!!,
+                    HISTORICAL_RATES_ID,
+                    this@CurrencyHistoryChartFragment
+
+                )
+            }
+
+            currencySelectionItemViewModel.updateLiveData.observe(viewLifecycleOwner) {
+                currencySelectionItemViewModel.notifyObservers()
+            }
         }
     }
 
@@ -89,6 +92,9 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             }
             HISTORICAL_RATES_ID -> {
                 historicalRates = JSONObject(responseBody)
+                Log.d(this.javaClass.simpleName, "historicalRates -> $historicalRates")
+
+                handler.post { updateUI() }
             }
         }
 
@@ -96,6 +102,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     }
 
     override fun onFailureApiResponse(errorMessage: String) {
+        updateUI()
         Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
         progressBarViewModel.setShowProgressBar(false)
     }

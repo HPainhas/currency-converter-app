@@ -6,8 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import java.util.*
 
 class CurrencySelectionItemViewModel : ViewModel() {
+    private var debounceTimer: Timer? = null
+    private val observers = mutableListOf<() -> Unit>()
     private val handler = Handler(Looper.getMainLooper())
 
     private var _fromSymbol = MutableLiveData("BRL")
@@ -109,5 +112,19 @@ class CurrencySelectionItemViewModel : ViewModel() {
                 this._toImageName.value = imageName
             }
         }.start()
+    }
+
+    fun addObserver(observer: () -> Unit) {
+        observers.add(observer)
+    }
+
+    fun notifyObservers() {
+        debounceTimer?.cancel()
+        debounceTimer = Timer()
+        debounceTimer?.schedule(object : TimerTask() {
+            override fun run() {
+                observers.forEach { it.invoke() }
+            }
+        }, 200)
     }
 }

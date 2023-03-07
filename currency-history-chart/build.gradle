@@ -41,6 +41,10 @@ dependencies {
     implementation project(':currency-selection')
     implementation project(':util')
 
+    // RxJava
+    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
+
     // Google
     implementation 'com.google.android.material:material:1.8.0'
 
