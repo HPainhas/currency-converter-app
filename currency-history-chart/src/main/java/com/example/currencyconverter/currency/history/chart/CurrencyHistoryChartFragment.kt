@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.currencyconverter.api.ApiResponseCallback
@@ -16,6 +15,7 @@ import com.example.currencyconverter.api.OpenExchangeRatesApi
 import com.example.currencyconverter.currency.history.chart.databinding.CurrencyHistoryChartFragmentBinding
 import com.example.currencyconverter.currency.selection.CurrencySelectionItemViewModel
 import com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
+import com.example.currencyconverter.currency.selection.CurrencySelectionUtils
 import com.example.currencyconverter.util.Currency
 import com.example.currencyconverter.util.ProgressBarViewModel
 import com.example.currencyconverter.util.Util
@@ -68,8 +68,6 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
                 HISTORICAL_RATES_ID,
                 this
             )
-
-            setUpCurrencySelectionSpinnerListeners()
         }
     }
 
@@ -115,54 +113,12 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             includeParenthesis = false
         )
 
-        initializeCurrencySelectionSpinners()
-    }
-
-    private fun setUpCurrencySelectionSpinnerListeners() {
-        fromCurrencySelectionSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedFromCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedFromCurrency, isFromCurrency = true)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-
-        toCurrencySelectionSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedToCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedToCurrency, isFromCurrency = false)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-    }
-
-    private fun initializeCurrencySelectionSpinners() {
-        if (currencyList.size > 1) {
-            fromCurrencySelectionSpinner.setSelection(0)
-            toCurrencySelectionSpinner.setSelection(1)
-
-            val fromCurrency =
-                fromCurrencySelectionSpinner.getItemAtPosition(0) as Currency
-            val toCurrency =
-                toCurrencySelectionSpinner.getItemAtPosition(1) as Currency
-
-            updateCurrencySelectionItemViewModel(fromCurrency, isFromCurrency = true)
-            updateCurrencySelectionItemViewModel(toCurrency, isFromCurrency = false)
-        }
+        CurrencySelectionUtils.initializeCurrencySelectionSpinners(
+            currencyList,
+            fromCurrencySelectionSpinner,
+            toCurrencySelectionSpinner,
+            ::updateCurrencySelectionItemViewModel
+        )
     }
 
     private fun updateCurrencySelectionItemViewModel(

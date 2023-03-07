@@ -7,11 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.api.OpenExchangeRatesApi
+import com.example.currencyconverter.currency.selection.CurrencySelectionUtils.initializeCurrencySelectionSpinners
 import com.example.currencyconverter.currency.selection.databinding.CurrencySelectionFragmentBinding
 import com.example.currencyconverter.util.Util
 import com.example.currencyconverter.util.Currency
@@ -62,8 +62,6 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                 this
             )
 
-            setUpCurrencySelectionSpinnerListeners()
-
             // Always reset amount to $ 0.00
             currencySelectionAmountViewModel.updateAmount(0.00)
         }
@@ -82,6 +80,7 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
                 }
             }.start()
         } else {
+            Log.d(this.javaClass.simpleName, "latestExchangeRates came back empty" )
             throw Exception("latestExchangeRates came back empty")
         }
 
@@ -110,54 +109,12 @@ class CurrencySelectionFragment : Fragment(R.layout.currency_selection_fragment)
         fromCurrencySelectionSpinner.setAdapter(currencyList)
         toCurrencySelectionSpinner.setAdapter(currencyList)
 
-        initializeCurrencySelectionSpinners()
-    }
-
-    private fun setUpCurrencySelectionSpinnerListeners() {
-        fromCurrencySelectionSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedFromCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedFromCurrency, isFromCurrency = true)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-
-        toCurrencySelectionSpinner.onItemSelectedListener =
-            object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(
-                    parent: AdapterView<*>,
-                    view: View?,
-                    position: Int,
-                    id: Long
-                ) {
-                    val selectedToCurrency = parent.getItemAtPosition(position) as Currency
-                    updateCurrencySelectionItemViewModel(selectedToCurrency, isFromCurrency = false)
-                }
-
-                override fun onNothingSelected(parent: AdapterView<*>?) {}
-            }
-    }
-
-    private fun initializeCurrencySelectionSpinners() {
-        if (currencyList.size > 1) {
-            fromCurrencySelectionSpinner.setSelection(0)
-            toCurrencySelectionSpinner.setSelection(1)
-
-            val fromCurrency =
-                fromCurrencySelectionSpinner.getItemAtPosition(0) as Currency
-            val toCurrency =
-                toCurrencySelectionSpinner.getItemAtPosition(1) as Currency
-
-            updateCurrencySelectionItemViewModel(fromCurrency, isFromCurrency = true)
-            updateCurrencySelectionItemViewModel(toCurrency, isFromCurrency = false)
-        }
+        initializeCurrencySelectionSpinners(
+            currencyList,
+            fromCurrencySelectionSpinner,
+            toCurrencySelectionSpinner,
+            ::updateCurrencySelectionItemViewModel
+        )
     }
 
     private fun updateCurrencySelectionItemViewModel(

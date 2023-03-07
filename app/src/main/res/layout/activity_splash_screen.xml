@@ -23,12 +23,11 @@
         android:id="@+id/splash_screen_app_name_text_switcher"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="Currency Converter"
+        android:inAnimation="@android:anim/slide_in_left"
+        android:outAnimation="@android:anim/slide_out_right"
         app:layout_constraintEnd_toEndOf="@id/splash_screen_currency_exchange_logo_animation"
         app:layout_constraintStart_toStartOf="@id/splash_screen_currency_exchange_logo_animation"
         app:layout_constraintTop_toBottomOf="@id/splash_screen_currency_exchange_logo_animation"
-        android:inAnimation="@android:anim/slide_in_left"
-        android:outAnimation="@android:anim/slide_out_right"
-        />
+        tools:text="Currency Converter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
