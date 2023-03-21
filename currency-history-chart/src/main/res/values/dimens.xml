@@ -5,5 +5,9 @@
     <dimen name="currency_history_chart_exchange_icon_padding_horizontal">10dp</dimen>
     <dimen name="currency_history_chart_exchange_rate_margin_top">10dp</dimen>
     <dimen name="currency_history_chart_exchange_rate_text_size">16sp</dimen>
+    <dimen name="currency_history_chart_container_margin_top">20dp</dimen>
+
+    <dimen name="currency_chart_min_height">250dp</dimen>
+    <dimen name="currency_chart_marker_view_label_text_size">14sp</dimen>
 
 </resources>

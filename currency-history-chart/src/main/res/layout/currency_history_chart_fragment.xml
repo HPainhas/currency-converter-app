@@ -56,10 +56,30 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/currency_history_chart_exchange_rate_margin_top"
-        android:textSize="@dimen/currency_history_chart_exchange_rate_text_size"
         android:textColor="@color/black"
+        android:textSize="@dimen/currency_history_chart_exchange_rate_text_size"
         app:layout_constraintStart_toStartOf="@id/currency_history_chart_spinner_container"
         app:layout_constraintTop_toBottomOf="@id/currency_history_chart_spinner_container"
         tools:text="1 BRL = 0.193453 USD" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/currency_history_chart_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/currency_history_chart_container_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/currency_history_chart_stats_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currency_history_chart_exchange_rate"
+        tools:layout="@layout/currency_chart_fragment" />
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/currency_history_chart_stats_container"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout="@layout/currency_stats_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 import com.example.currencyconverter.api.ApiResponseCallback
 import com.example.currencyconverter.api.ExchangeRatesApiLayerApi
 import com.example.currencyconverter.api.OpenExchangeRatesApi
@@ -92,7 +93,8 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             }
             HISTORICAL_RATES_ID -> {
                 historicalRates = JSONObject(responseBody)
-                Log.d(this.javaClass.simpleName, "historicalRates -> $historicalRates")
+
+                loadCurrencyChartFragment()
 
                 handler.post { updateUI() }
             }
@@ -105,6 +107,18 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
         updateUI()
         Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
         progressBarViewModel.setShowProgressBar(false)
+    }
+
+    private fun loadCurrencyChartFragment() {
+        parentFragmentManager.commit {
+            replace(
+                R.id.currency_history_chart_container,
+                CurrencyChartFragment.newInstance(
+                    historicalRates.toString(),
+                    currencySelectionItemViewModel.toSymbol.value.toString()
+                )
+            )
+        }
     }
 
     private fun setUpCurrencySelectionSpinnerAdapters() {
