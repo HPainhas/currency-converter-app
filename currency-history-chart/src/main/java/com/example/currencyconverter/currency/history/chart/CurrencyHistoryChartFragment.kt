@@ -61,6 +61,8 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             )
 
             currencySelectionItemViewModel.addObserver {
+                progressBarViewModel.setShowProgressBar(true)
+
                 ExchangeRatesApiLayerApi.getCurrencyStatistics(
                     context = requireContext(),
                     fromCurrencySymbol = currencySelectionItemViewModel.fromSymbol.value!!,
