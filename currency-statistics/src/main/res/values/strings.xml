@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="currency_statistics_header">Statistics</string>
+    <string name="currency_statistics_header_disclaimer">(daily rates)</string>
+    <string name="currency_statistics_high">High</string>
+    <string name="currency_statistics_low">Low</string>
+    <string name="currency_statistics_change_percentage">Change Percentage</string>
+    <string name="currency_statistics_high_rate">%1$.4f</string>
+    <string name="currency_statistics_low_rate">%1$.4f</string>
+    <string name="currency_statistics_change_percentage_rate">%1$.2f\%%</string>
+
+</resources>

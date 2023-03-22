@@ -17,6 +17,7 @@ import com.example.currencyconverter.currency.history.chart.databinding.Currency
 import com.example.currencyconverter.currency.selection.CurrencySelectionItemViewModel
 import com.example.currencyconverter.currency.selection.CurrencySelectionSpinner
 import com.example.currencyconverter.currency.selection.CurrencySelectionUtils
+import com.example.currencyconverter.currency.statistics.CurrencyStatisticsFragment
 import com.example.currencyconverter.util.Currency
 import com.example.currencyconverter.util.ProgressBarViewModel
 import com.example.currencyconverter.util.Util
@@ -27,6 +28,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     private lateinit var binding: CurrencyHistoryChartFragmentBinding
     private lateinit var currencyList: List<Currency>
     private lateinit var historicalRates: JSONObject
+    private lateinit var fluctuationRates: JSONObject
     private lateinit var latestExchangeRates: JSONObject
     private lateinit var fromCurrencySelectionSpinner: CurrencySelectionSpinner
     private lateinit var toCurrencySelectionSpinner: CurrencySelectionSpinner
@@ -59,13 +61,20 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
             )
 
             currencySelectionItemViewModel.addObserver {
+                ExchangeRatesApiLayerApi.getCurrencyStatistics(
+                    context = requireContext(),
+                    fromCurrencySymbol = currencySelectionItemViewModel.fromSymbol.value!!,
+                    toCurrencySymbol = currencySelectionItemViewModel.toSymbol.value!!,
+                    FLUCTUATION_RATES_ID,
+                    this@CurrencyHistoryChartFragment
+                )
+
                 ExchangeRatesApiLayerApi.getCurrencyHistory(
                     context = requireContext(),
                     fromCurrencySymbol = currencySelectionItemViewModel.fromSymbol.value!!,
                     toCurrencySymbol = currencySelectionItemViewModel.toSymbol.value!!,
                     HISTORICAL_RATES_ID,
                     this@CurrencyHistoryChartFragment
-
                 )
             }
 
@@ -76,6 +85,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     }
 
     override fun onSuccessApiResponse(responseBody: String, identifier: String) {
+        // TODO - try create just one JSONObject called responseJson
         when(identifier) {
             LATEST_EXCHANGE_RATES_ID -> {
                 latestExchangeRates = JSONObject(responseBody)
@@ -91,11 +101,14 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
                     throw Exception("latestExchangeRates came back empty")
                 }
             }
+            FLUCTUATION_RATES_ID -> {
+                fluctuationRates = JSONObject(responseBody)
+                loadCurrencyStatisticsFragment()
+                handler.post { updateUI() }
+            }
             HISTORICAL_RATES_ID -> {
                 historicalRates = JSONObject(responseBody)
-
                 loadCurrencyChartFragment()
-
                 handler.post { updateUI() }
             }
         }
@@ -104,7 +117,7 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     }
 
     override fun onFailureApiResponse(errorMessage: String) {
-        updateUI()
+        handler.post { updateUI() }
         Log.d(this.javaClass.simpleName, "onFailureApiResponse -> $errorMessage" )
         progressBarViewModel.setShowProgressBar(false)
     }
@@ -115,6 +128,18 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
                 R.id.currency_history_chart_container,
                 CurrencyChartFragment.newInstance(
                     historicalRates.toString(),
+                    currencySelectionItemViewModel.toSymbol.value.toString()
+                )
+            )
+        }
+    }
+
+    private fun loadCurrencyStatisticsFragment() {
+        parentFragmentManager.commit {
+            replace(
+                R.id.currency_history_chart_statistics_container,
+                CurrencyStatisticsFragment.newInstance(
+                    fluctuationRates.toString(),
                     currencySelectionItemViewModel.toSymbol.value.toString()
                 )
             )
@@ -163,7 +188,8 @@ class CurrencyHistoryChartFragment : Fragment(R.layout.currency_history_chart_fr
     }
 
     companion object {
-        private const val LATEST_EXCHANGE_RATES_ID = "latestExchangeRates"
         private const val HISTORICAL_RATES_ID = "historicalRates"
+        private const val FLUCTUATION_RATES_ID = "fluctuationRates"
+        private const val LATEST_EXCHANGE_RATES_ID = "latestExchangeRates"
     }
 }

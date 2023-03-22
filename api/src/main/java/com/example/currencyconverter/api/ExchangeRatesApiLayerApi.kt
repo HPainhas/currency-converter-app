@@ -53,7 +53,7 @@ object ExchangeRatesApiLayerApi {
     ) {
         val apiKey = getExchangeRatesApiLayerApiKey(context)
         val params = listOf(
-            "apiKey=$apiKey",
+            "apikey=$apiKey",
             "base=$fromCurrencySymbol",
             "symbols=$toCurrencySymbol",
         )

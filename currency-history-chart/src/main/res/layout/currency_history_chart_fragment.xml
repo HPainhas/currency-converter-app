@@ -68,18 +68,18 @@
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/currency_history_chart_container_margin_top"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/currency_history_chart_stats_container"
+        app:layout_constraintBottom_toTopOf="@id/currency_history_chart_statistics_container"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/currency_history_chart_exchange_rate"
         tools:layout="@layout/currency_chart_fragment" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/currency_history_chart_stats_container"
+        android:id="@+id/currency_history_chart_statistics_container"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        tools:layout="@layout/currency_stats_fragment" />
+        tools:layout="@layout/currency_statistics_fragment" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
