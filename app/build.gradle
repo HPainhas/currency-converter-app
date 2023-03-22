@@ -43,7 +43,7 @@ dependencies {
     implementation project(':currency-favorite')
     implementation project(':currency-history-chart')
     implementation project(':currency-selection')
-    implementation project(':currency-stats')
+    implementation project(':currency-statistics')
     implementation project(':navigation-bar')
     implementation project(':util')
 
