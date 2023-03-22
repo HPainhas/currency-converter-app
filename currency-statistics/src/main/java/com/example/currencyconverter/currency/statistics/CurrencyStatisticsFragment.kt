@@ -53,13 +53,25 @@ class CurrencyStatisticsFragment : Fragment(R.layout.currency_statistics_fragmen
             changePercentage = fluctuationRateJsonObject.getDouble("change_pct") * 100
         }
 
+        val changePercentageRate = binding.currencyStatisticsChangePercentage
+
+        if (changePercentage < 0.0) {
+            changePercentageRate.setTextColor(
+                resources.getColor(com.example.currencyconverter.brandkit.R.color.red)
+            )
+        } else {
+            changePercentageRate.setTextColor(
+                resources.getColor(com.example.currencyconverter.brandkit.R.color.green)
+            )
+        }
+
         binding.currencyStatisticsHigh.text = if (high == 0.0) "N/A" else {
             getString(R.string.currency_statistics_high_rate, high)
         }
         binding.currencyStatisticsLow.text = if (low == 0.0) "N/A" else {
             getString(R.string.currency_statistics_low_rate, low)
         }
-        binding.currencyStatisticsChangePercentage.text = if (changePercentage == 0.0) "N/A" else {
+        changePercentageRate.text = if (changePercentage == 0.0) "N/A" else {
             getString(R.string.currency_statistics_change_percentage_rate, changePercentage)
         }
     }

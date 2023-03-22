@@ -28,37 +28,16 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/navigation_bar_toolbar_title_app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/navigation_bar_toolbar_title_app_name_margin_start"
-                android:text="@string/navigation_bar_toolbar_title_app_name"
-                android:textAppearance="@style/ToolbarTitleTextStyle"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
                 android:id="@+id/navigation_bar_toolbar_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/navigation_bar_toolbar_title_margin_start"
                 android:textAppearance="@style/ToolbarTitleTextStyle"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/navigation_bar_toolbar_title_app_name"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Convert" />
-
-            <ImageView
-                android:id="@+id/navigation_bar_toolbar_profile_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="@dimen/navigation_bar_toolbar_profile_icon_margin_end"
-                android:src="@drawable/ic_profile_filled"
-                app:layout_constraintBottom_toBottomOf="@id/navigation_bar_toolbar_title"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@id/navigation_bar_toolbar_title"
-                tools:ignore="ContentDescription" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
