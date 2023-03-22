@@ -44,8 +44,6 @@ class CurrencyStatisticsFragment : Fragment(R.layout.currency_statistics_fragmen
         var changePercentage = 0.0
 
         if (fluctuationRates.getBoolean("success")) {
-            println("fluctuationRates -> $fluctuationRates")
-
             val fluctuationRateJsonObject = fluctuationRates
                 .getJSONObject("rates")
                 .getJSONObject(toCurrencySymbol)

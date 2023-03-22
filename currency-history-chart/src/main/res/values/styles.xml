@@ -4,7 +4,7 @@
     <style name="CustomMarkerViewTextStyle">
         <item name="android:textStyle">bold</item>
         <item name="android:textAlignment">center</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/gray</item>
         <item name="android:textSize">@dimen/currency_chart_custom_marker_view_label_text_size</item>
     </style>
 
