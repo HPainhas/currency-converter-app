@@ -8,6 +8,6 @@
     <dimen name="currency_history_chart_container_margin_top">20dp</dimen>
 
     <dimen name="currency_chart_min_height">250dp</dimen>
-    <dimen name="currency_chart_marker_view_label_text_size">14sp</dimen>
+    <dimen name="currency_chart_custom_marker_view_label_text_size">12sp</dimen>
 
 </resources>

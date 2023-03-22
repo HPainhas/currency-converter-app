@@ -8,8 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.currencyconverter.currency.history.chart.databinding.CurrencyChartFragmentBinding
-import com.example.currencyconverter.util.Util
 import com.github.mikephil.charting.charts.LineChart
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -61,13 +61,19 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
                 entries.add(Entry(x,y))
             }
 
-            val dataSet = LineDataSet(entries, "Rate")
+            val dataSet = LineDataSet(entries, "")
             dataSet.setDrawCircles(false)
+            dataSet.form = Legend.LegendForm.NONE
             dataSet.color = resources.getColor(com.example.currencyconverter.brandkit.R.color.currency_converter_light_900)
             dataSet.valueTextColor = Color.GRAY
 
             val lineData = LineData(dataSet)
-            val markerView = CustomMarkerView(requireContext(), R.layout.marker_view)
+            val markerView = CustomMarkerView(
+                requireContext(),
+                R.layout.custom_marker_view,
+                rateByDateMap
+            )
+
             chart.data = lineData
             chart.marker = markerView
             chart.description = null
@@ -81,6 +87,7 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
             xAxis.setDrawGridLines(false)
 
             val yLeftAxis = chart.axisLeft
+            yLeftAxis.setDrawLabels(false)
             yLeftAxis.setDrawAxisLine(false)
             yLeftAxis.setDrawGridLines(false)
 
@@ -89,17 +96,13 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
             yRightAxis.setDrawAxisLine(false)
             yRightAxis.setDrawGridLines(false)
 
-            setUpChartGestureListener(chart, markerView, rateByDateMap)
+            setUpChartGestureListener(chart)
         } else {
             // TODO - Display error message
         }
     }
 
-    private fun setUpChartGestureListener(
-        chart: LineChart,
-        markerView: CustomMarkerView,
-        rateByDateMap: SortedMap<Int, Pair<String, Float>>
-    ) {
+    private fun setUpChartGestureListener(chart: LineChart) {
         chart.onChartGestureListener = object: OnChartGestureListener {
             override fun onChartGestureStart(
                 me: MotionEvent?,
@@ -112,24 +115,7 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
             ) {
-                val highlight = chart.highlighted
-
-                if (highlight != null && highlight.isNotEmpty()) {
-                    val entry = chart.lineData
-                        .getDataSetByIndex(highlight[0].dataSetIndex)
-                        .getEntryForXValue(highlight[0].x, highlight[0].y)
-
-                    val index = entry.x.toInt()
-                    val date = rateByDateMap.values
-                        .elementAt(index)
-                        .first
-
-                    val formattedDate = Util.getFormattedDate("dd MMM yyyy", date)
-                    markerView.setMarkerViewEntryDate(formattedDate)
-
-                    // Refresh the marker view
-                    chart.marker.refreshContent(entry, highlight[0])
-                }
+                // do nothing
             }
 
             override fun onChartLongPressed(me: MotionEvent?) {
