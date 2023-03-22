@@ -124,7 +124,7 @@ class SplashScreenActivity : AppCompatActivity(R.layout.activity_splash_screen) 
     }
 
     companion object {
-        private const val DELAY: Long = 3
+        private const val DELAY: Long = 5
         private const val ANIMATION_DELAY: Long = 150L
     }
 }
