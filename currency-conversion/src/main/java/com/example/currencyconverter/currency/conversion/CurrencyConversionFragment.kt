@@ -1,5 +1,6 @@
 package com.example.currencyconverter.currency.conversion
 
+import android.content.Context
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -8,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.commit
@@ -46,8 +48,12 @@ class CurrencyConversionFragment : Fragment(R.layout.currency_conversion_fragmen
                 val enteredAmount = binding.currencyConversionAmountEditText.text
 
                 if (!enteredAmount.isNullOrEmpty()) {
-                    val amount =
-                        Util.removeDollarSignAndCommas(enteredAmount.toString()).toDouble()
+                    // Hide keyboard
+                    val imm = activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    imm.hideSoftInputFromWindow(activity?.currentFocus?.windowToken, 0)
+
+                    val amount = Util.removeDollarSignAndCommas(enteredAmount.toString())
+                        .toDouble()
 
                     currencySelectionAmountViewModel.updateAmount(amount)
                 }
