@@ -8,14 +8,16 @@ class Util {
 
     companion object {
 
+        fun getFormattedDate(pattern: String, date: String): String {
+            val inputFormatter = SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            val outputFormatter = SimpleDateFormat(pattern, Locale.US)
+            val parsedDate = inputFormatter.parse(date)!!
+            return outputFormatter.format(parsedDate)
+        }
+
         fun getCurrentDate(pattern: String): String {
             val formatter = SimpleDateFormat(pattern, Locale.US)
             return formatter.format(Date())
-        }
-
-        fun getCurrentDateFromString(pattern: String, date: String): Date {
-            val formatter = SimpleDateFormat(pattern, Locale.US)
-            return formatter.parse(date)!!
         }
 
         fun getDateOneYearAgo(pattern: String, date: String): String {

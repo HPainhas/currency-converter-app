@@ -3,6 +3,7 @@
 
     <string name="currency_history_chart_exchange_rate">1 %1$s = %2$.2f %3$s</string>
 
-    <string name="currency_chart_marker_view_label">%1$.4f</string>
+    <string name="currency_chart_marker_view_date">%1$s</string>
+    <string name="currency_chart_marker_view_rate">%1$.4f</string>
 
 </resources>

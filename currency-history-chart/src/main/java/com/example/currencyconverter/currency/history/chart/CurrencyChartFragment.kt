@@ -53,13 +53,11 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
         val chart = binding.currencyChart
 
         if (rateByDateMap.isNotEmpty()) {
-            setUpChartGestureListener(chart)
-
             val entries: MutableList<Entry> = ArrayList()
 
-            for (date in rateByDateMap.keys) {
-                val x = rateByDateMap[date]!![0]
-                val y = rateByDateMap[date]!![1]
+            for (index in rateByDateMap.keys) {
+                val x = index.toFloat()
+                val y = rateByDateMap.values.elementAt(index).second
                 entries.add(Entry(x,y))
             }
 
@@ -85,36 +83,66 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
             val yLeftAxis = chart.axisLeft
             yLeftAxis.setDrawAxisLine(false)
             yLeftAxis.setDrawGridLines(false)
-            yLeftAxis.setLabelCount(3, true)
 
             val yRightAxis = chart.axisRight
             yRightAxis.setDrawLabels(false)
             yRightAxis.setDrawAxisLine(false)
             yRightAxis.setDrawGridLines(false)
+
+            setUpChartGestureListener(chart, markerView, rateByDateMap)
         } else {
             // TODO - Display error message
         }
     }
 
-    private fun setUpChartGestureListener(chart: LineChart) {
+    private fun setUpChartGestureListener(
+        chart: LineChart,
+        markerView: CustomMarkerView,
+        rateByDateMap: SortedMap<Int, Pair<String, Float>>
+    ) {
         chart.onChartGestureListener = object: OnChartGestureListener {
             override fun onChartGestureStart(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
-            ) {}
+            ) {
+                // do nothing
+            }
 
             override fun onChartGestureEnd(
                 me: MotionEvent?,
                 lastPerformedGesture: ChartTouchListener.ChartGesture?
-            ) {}
+            ) {
+                val highlight = chart.highlighted
 
-            override fun onChartLongPressed(me: MotionEvent?) {}
+                if (highlight != null && highlight.isNotEmpty()) {
+                    val entry = chart.lineData
+                        .getDataSetByIndex(highlight[0].dataSetIndex)
+                        .getEntryForXValue(highlight[0].x, highlight[0].y)
+
+                    val index = entry.x.toInt()
+                    val date = rateByDateMap.values
+                        .elementAt(index)
+                        .first
+
+                    val formattedDate = Util.getFormattedDate("dd MMM yyyy", date)
+                    markerView.setMarkerViewEntryDate(formattedDate)
+
+                    // Refresh the marker view
+                    chart.marker.refreshContent(entry, highlight[0])
+                }
+            }
+
+            override fun onChartLongPressed(me: MotionEvent?) {
+                // do nothing
+            }
 
             override fun onChartDoubleTapped(me: MotionEvent?) {
                 chart.setScaleEnabled(false) // Prevent zoom-in on double tap
             }
 
-            override fun onChartSingleTapped(me: MotionEvent?) {}
+            override fun onChartSingleTapped(me: MotionEvent?) {
+                // do nothing
+            }
 
             override fun onChartFling(
                 me1: MotionEvent?,
@@ -123,34 +151,38 @@ class CurrencyChartFragment : Fragment(R.layout.currency_chart_fragment) {
                 velocityY: Float
             ) {}
 
-            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {}
+            override fun onChartScale(me: MotionEvent?, scaleX: Float, scaleY: Float) {
+                // do nothing
+            }
 
-            override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {}
+            override fun onChartTranslate(me: MotionEvent?, dX: Float, dY: Float) {
+                // do nothing
+            }
 
         }
     }
 
     /**
-     * Parse the given historical rates JSON object and generates a SortedMap that has the date as
-     * the key and the graph plots (x,y) as the value, where x is a floater index and y is the
-     * rate for the respective date
+     * Parse the given historical rates JSON object and generates a SortedMap that has a Integer
+     * index as the key and a Pair<String, Float> as the value, where String is the date and
+     * Float is the rate for the respective date
      */
-    private fun buildSortedHistoricalRatesDataSetMap(): SortedMap<String, List<Float>> {
-        val ratesDataSet = HashMap<String, List<Float>>()
-        var floaterIndex = 0f
+    private fun buildSortedHistoricalRatesDataSetMap(): SortedMap<Int, Pair<String,Float>> {
+        val sortedMap = HashMap<Int, Pair<String,Float>>()
+        var index = 0
 
         if (historicalRates.getBoolean("success")) {
             val dateToRateJsonObject = historicalRates.getJSONObject("rates")
 
             for (date in dateToRateJsonObject.keys()) {
                 val rate = dateToRateJsonObject.getJSONObject(date).getDouble(toCurrencySymbol)
-                ratesDataSet[date] = listOf(floaterIndex, rate.toFloat())
-                floaterIndex++
+                sortedMap[index] = Pair(date, rate.toFloat())
+                index++
             }
         }
 
-        return ratesDataSet.toSortedMap(
-            compareBy { Util.getCurrentDateFromString("yyyy-MM-dd", it) }
+        return sortedMap.toSortedMap(
+            compareBy { it }
         )
     }
 

@@ -6,12 +6,23 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/marker_view_label"
+        android:id="@+id/marker_view_rate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:layout_gravity="center"
-        android:textColor="@color/black"
+        android:textColor="@color/gray"
+        android:textStyle="bold"
+        android:textSize="@dimen/currency_chart_marker_view_label_text_size"
+        tools:text="3.5432"/>
+
+    <TextView
+        android:id="@+id/marker_view_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center"
+        android:textColor="@color/gray"
         android:textStyle="bold"
         android:textSize="@dimen/currency_chart_marker_view_label_text_size"
         tools:text="March 20, 2023"/>
