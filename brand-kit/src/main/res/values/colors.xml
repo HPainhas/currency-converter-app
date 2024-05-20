@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#757575</color>
+    <color name="red">#E3392B</color>
+    <color name="green">#00C206</color>
+    <color name="light_gray">#FEFEFE</color>
+
+    <!--  Light Mode  -->
+    <color name="currency_converter_light_50">#e0edfb</color>
+    <color name="currency_converter_light_100">#b3d3f5</color>
+    <color name="currency_converter_light_200">#80b6ef</color>
+    <color name="currency_converter_light_300">#4d98e8</color>
+    <color name="currency_converter_light_400">#2682e3</color>
+    <color name="currency_converter_light_500">#006cde</color>
+    <color name="currency_converter_light_600">#0064da</color>
+    <color name="currency_converter_light_700">#0059d5</color>
+    <color name="currency_converter_light_800">#004fd1</color>
+    <color name="currency_converter_light_900">#003dc8</color>
+    <color name="currency_converter_light_A100">#f1f4ff</color>
+    <color name="currency_converter_light_A200">#becdff</color>
+    <color name="currency_converter_light_A400">#8ba6ff</color>
+    <color name="currency_converter_light_A700">#7192ff</color>
+
+</resources>
+

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="currency_converter_button_height">56dp</dimen>
+    <dimen name="currency_converter_primary_text_size">18sp</dimen>
+    <dimen name="currency_converter_secondary_text_size">14sp</dimen>
+
+</resources>

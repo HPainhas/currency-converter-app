@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CurrencyStatisticsSubHeader">
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/currency_converter_secondary_text_size</item>
+    </style>
+
+    <style name="CurrencyStatisticsRates">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/currency_converter_secondary_text_size</item>
+    </style>
+
+</resources>

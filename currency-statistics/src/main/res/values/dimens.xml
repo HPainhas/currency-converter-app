@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="currency_statistics_min_height">200dp</dimen>
+    <dimen name="currency_statistics_header_disclaimer_margin_start">5dp</dimen>
+    <dimen name="currency_statistics_subheader_margin_top">10dp</dimen>
+    <dimen name="currency_statistics_subheader_divider_margin_top">10dp</dimen>
+
+</resources>

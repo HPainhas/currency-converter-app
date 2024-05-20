@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/currency_statistics_min_height">
+
+    <TextView
+        android:id="@+id/currency_statistics_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/currency_statistics_header"
+        android:textColor="@color/black"
+        android:textSize="@dimen/currency_converter_primary_text_size"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/currency_statistics_header_disclaimer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/currency_statistics_header_disclaimer_margin_start"
+        android:text="@string/currency_statistics_header_disclaimer"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/currency_converter_secondary_text_size"
+        app:layout_constraintBottom_toBottomOf="@id/currency_statistics_header"
+        app:layout_constraintStart_toEndOf="@id/currency_statistics_header"
+        app:layout_constraintTop_toTopOf="@id/currency_statistics_header" />
+
+    <TextView
+        android:id="@+id/currency_statistics_subheader_high"
+        style="@style/CurrencyStatisticsSubHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_statistics_subheader_margin_top"
+        android:text="@string/currency_statistics_high"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currency_statistics_header" />
+
+    <TextView
+        android:id="@+id/currency_statistics_high"
+        style="@style/CurrencyStatisticsRates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/currency_statistics_subheader_high"
+        tools:text="3.2534" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/currency_statistics_subheader_high_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_statistics_subheader_divider_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currency_statistics_subheader_high" />
+
+    <TextView
+        android:id="@+id/currency_statistics_subheader_low"
+        style="@style/CurrencyStatisticsSubHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_statistics_subheader_margin_top"
+        android:text="@string/currency_statistics_low"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currency_statistics_subheader_high_divider" />
+
+    <TextView
+        android:id="@+id/currency_statistics_low"
+        style="@style/CurrencyStatisticsRates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/currency_statistics_subheader_low"
+        tools:text="3.0121" />
+
+    <com.google.android.material.divider.MaterialDivider
+        android:id="@+id/currency_statistics_subheader_low_divider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_statistics_subheader_divider_margin_top"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currency_statistics_subheader_low" />
+
+    <TextView
+        android:id="@+id/currency_statistics_subheader_change_percentage"
+        style="@style/CurrencyStatisticsSubHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/currency_statistics_subheader_margin_top"
+        android:text="@string/currency_statistics_change_percentage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/currency_statistics_subheader_low_divider" />
+
+    <TextView
+        android:id="@+id/currency_statistics_change_percentage"
+        style="@style/CurrencyStatisticsRates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/currency_statistics_subheader_change_percentage"
+        tools:text="3.1892" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

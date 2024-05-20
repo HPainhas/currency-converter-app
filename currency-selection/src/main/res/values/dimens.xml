@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- CurrencySelectionFragment -->
+    <dimen name="currency_selection_spinner_container_height">56dp</dimen>
+    <dimen name="currency_selection_spinner_container_margin_top">10dp</dimen>
+    <dimen name="currency_selection_last_updated_drawable_padding">5dp</dimen>
+    <dimen name="currency_selection_last_updated_text_size">12sp</dimen>
+    <dimen name="currency_selection_amount_padding_end">10dp</dimen>
+    <dimen name="currency_selection_converted_amount_layout_padding_end">10dp</dimen>
+    <dimen name="currency_selection_item_amount_text_size">14sp</dimen>
+    <dimen name="currency_selection_item_exchange_rate_text_size">12sp</dimen>
+
+    <!-- CurrencySelectionSpinner -->
+    <dimen name="currency_selection_spinner_height">56dp</dimen>
+
+    <!-- CurrencySelectionSpinnerItem -->
+    <dimen name="currency_selection_spinner_item_min_height">56dp</dimen>
+    <dimen name="currency_selection_spinner_item_padding_horizontal">10dp</dimen>
+    <dimen name="currency_selection_spinner_item_padding_vertical">5dp</dimen>
+    <dimen name="currency_selection_spinner_item_currency_flag_container_width">65dp</dimen>
+    <dimen name="currency_selection_spinner_item_currency_flag_container_height">40dp</dimen>
+    <dimen name="currency_selection_spinner_item_currency_flag_container_card_corner_radius">4dp</dimen>
+    <dimen name="currency_selection_spinner_item_country_container_margin_start">10dp</dimen>
+    <dimen name="currency_selection_spinner_item_country_text_size">12sp</dimen>
+
+    <!-- CurrencySelectionSpinnerDropdownItem -->
+    <dimen name="currency_selection_spinner_dropdown_item_min_height">56dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_padding_horizontal">10dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_padding_vertical">5dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_currency_flag_container_width">65dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_currency_flag_container_height">40dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_currency_flag_container_card_corner_radius">4dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_country_container_margin_start">10dp</dimen>
+    <dimen name="currency_selection_spinner_dropdown_item_country_text_size">12sp</dimen>
+
+</resources>

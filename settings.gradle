@@ -10,7 +10,17 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url 'https://jitpack.io' }
     }
 }
 rootProject.name = "CurrencyConverter"
 include ':app'
+include ':api'
+include ':brand-kit'
+include ':currency-conversion'
+include ':currency-favorite'
+include ':currency-history-chart'
+include ':currency-selection'
+include ':currency-statistics'
+include ':navigation-bar'
+include ':util'

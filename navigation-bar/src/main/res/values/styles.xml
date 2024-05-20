@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="NavigationBarStyle">
+        <item name="labelVisibilityMode">labeled</item>
+        <item name="android:background">@color/white</item>
+        <item name="itemIconTint">@color/navigation_bar_button_background</item>
+        <item name="itemTextColor">@color/navigation_bar_button_background</item>
+        <item name="itemRippleColor">@color/currency_converter_light_50</item>
+    </style>
+
+    <style name="ToolbarTitleTextStyle">
+        <item name="android:textColor">@color/currency_converter_light_500</item>
+        <item name="android:textSize">@dimen/navigation_bar_toolbar_title_text_size</item>
+    </style>
+
+</resources>

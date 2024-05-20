@@ -1,17 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
-        <option name="testRunner" value="GRADLE" />
-        <option name="distributionType" value="DEFAULT_WRAPPED" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/api" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/brand-kit" />
+            <option value="$PROJECT_DIR$/currency-conversion" />
+            <option value="$PROJECT_DIR$/currency-favorite" />
+            <option value="$PROJECT_DIR$/currency-history-chart" />
+            <option value="$PROJECT_DIR$/currency-selection" />
+            <option value="$PROJECT_DIR$/currency-statistics" />
+            <option value="$PROJECT_DIR$/navigation-bar" />
+            <option value="$PROJECT_DIR$/util" />
           </set>
         </option>
+        <option name="resolveExternalAnnotations" value="false" />
       </GradleProjectSettings>
     </option>
   </component>
